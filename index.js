@@ -8,7 +8,6 @@ import { watchFile, unwatchFile } from 'fs'
 import cfonts from 'cfonts';
 import { createInterface } from 'readline'
 import yargs from 'yargs'
-import keep_alive from './keep_alive.js'
 
 // https://stackoverflow.com/a/50052194
 const __dirname = dirname(fileURLToPath(import.meta.url))
@@ -17,12 +16,12 @@ const { name, author } = require(join(__dirname, './package.json')) // https://w
 const { say } = cfonts
 const rl = createInterface(process.stdin, process.stdout)
 
-say('ABHISHEK SER', {
+say('ABHISHEK-SER', {
   font: 'chrome',
   align: 'center',
   gradient: ['red', 'magenta']
 })
-say(`'${name}' By @ABHISHEK-SURESH._`, {
+say(`'${name}' By @ABHISHEK SURESH._`, {
   font: 'console',
   align: 'center',
   gradient: ['red', 'magenta']
@@ -62,7 +61,7 @@ function start(file) {
   })
   p.on('exit', (_, code) => {
     isRunning = false
-    console.error('❌ An Unexpected Error Occurred:', code)
+    console.error('❎ An Unexpected Error Occurred:', code)
     if (code === 0) return
     watchFile(args[0], () => {
       unwatchFile(args[0])
@@ -74,8 +73,8 @@ function start(file) {
     if (!rl.listenerCount()) rl.on('line', line => {
       p.emit('message', line.trim())
     })
-  // console.log(p)
+  // Send WhatsApp message
+  conn.sendMessage("+919074692450", { text: "test" });
 }
 
 start('main.js')
-keep_alive();
