@@ -1,12 +1,9 @@
 let handler = async (m, { conn, text, usedPrefix, command }) => {
-  // Get the sender's name
-  let senderName = conn.getName(m.sender);
-
   // Define the content
   let mainImg = "https://replicate.delivery/pbxt/QbP6Fh3ZXwKON9SCB70ERGwwgeeSbztwKIOIzhUeXFkwnFHiA/out.png"; // Main image URL
   let smallImg = "https://replicate.delivery/pbxt/QbP6Fh3ZXwKON9SCB70ERGwwgeeSbztwKIOIzhUeXFkwnFHiA/out.png"; // Small image URL
   let smallText = "𝙰𝙱𝙷𝙸𝚂𝙷𝙴𝙺-𝚂𝙴𝚁"; // Small text
-  let mainText = `I'M Alive, ${senderName}`; // Main text with sender's name
+  let mainText = "I'M Alive"; // Main text
   let audioUrl = "https://raw.githubusercontent.com/AbhishekSuresh2/ABHISHEK-SER/main/src/mp3/Abhi.mp3"; // Audio URL
 
   // Construct the message
@@ -14,7 +11,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     key: { fromMe: false, participant: `${m.sender.split`@`[0]}@s.whatsapp.net`, ...(m.chat ? { remoteJid: '16504228206@s.whatsapp.net' } : {}) },
     message: {
       contactMessage: {
-        displayName: senderName, // Use sender's name as the display name
+        displayName: "m.sender", // Replace with the desired display name
         vcard: `BEGIN:VCARD\nVERSION:3.0\nN:;a,;;;\nFN:Your Name\nitem1.TEL;waid=${m.sender.split('@')[0]}:${m.sender.split('@')[0]}\nitem1.X-ABLabel:Ponsel\nEND:VCARD`
       }
     }
