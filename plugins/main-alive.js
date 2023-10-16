@@ -1,26 +1,25 @@
 let handler = async (m, { conn, text, usedPrefix, command }) => {
+  // Define the content
+  let mainImg = "https://replicate.delivery/pbxt/QbP6Fh3ZXwKON9SCB70ERGwwgeeSbztwKIOIzhUeXFkwnFHiA/out.png"; // Main image URL
+  let smallImg = "https://replicate.delivery/pbxt/QbP6Fh3ZXwKON9SCB70ERGwwgeeSbztwKIOIzhUeXFkwnFHiA/out.png"; // Small image URL
+  let smallText = "𝙰𝙱𝙷𝙸𝚂𝙷𝙴𝙺-𝚂𝙴𝚁"; // Small text
+  let mainText = "I'M Alive"; // Main text
+  let audioUrl = "https://raw.githubusercontent.com/AbhishekSuresh2/ABHISHEK-SER/main/src/mp3/Abhi.mp3"; // Audio URL
 
-  // Sound
-  let name = m.pushName || conn.getName(m.sender);
-  var vn = "https://raw.githubusercontent.com/AbhishekSuresh2/ABHISHEK-SER/main/src/mp3/Abhi.mp3";
-  let url = "https://github.com/AbhishekSuresh2/ABHISHEK-SER;
-  let murl = "https://github.com/AbhishekSuresh2/ABHISHEK-SER";
-  let smallImg = "https://cdn.wallpapersafari.com/71/19/7ZfcpT_small.png";
-  let mainImg = "https://cdn.wallpapersafari.com/71/19/7ZfcpT.png";
-
+  // Construct the message
   let con = {
     key: { fromMe: false, participant: `${m.sender.split`@`[0]}@s.whatsapp.net`, ...(m.chat ? { remoteJid: '16504228206@s.whatsapp.net' } : {}) },
     message: {
       contactMessage: {
-        displayName: `${name}`,
-        vcard: `BEGIN:VCARD\nVERSION:3.0\nN:;a,;;;\nFN:${name}\nitem1.TEL;waid=${m.sender.split('@')[0]}:${m.sender.split('@')[0]}\nitem1.X-ABLabel:Ponsel\nEND:VCARD`
+        displayName: "Hey👋", // Replace with the desired display name
+        vcard: `BEGIN:VCARD\nVERSION:3.0\nN:;a,;;;\nFN:Your Name\nitem1.TEL;waid=${m.sender.split('@')[0]}:${m.sender.split('@')[0]}\nitem1.X-ABLabel:Ponsel\nEND:VCARD`
       }
     }
   };
 
   let doc = {
     audio: {
-      url: vn
+      url: audioUrl
     },
     mimetype: 'audio/mp4',
     ptt: true,
@@ -30,10 +29,10 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     contextInfo: {
       mentionedJid: [m.sender],
       externalAdReply: {
-        title: "I AM ALIVE",
-        body: "GURU BOT",
+        title: smallText,
+        body: mainText,
         thumbnailUrl: smallImg, // Small image
-        sourceUrl: 'https://github.com/AbhishekSuresh2/ABHI-TEST-IT/edit/main/plugins/main-alive.js',
+        sourceUrl: 'https://github.com/AbhishekSuresh2/ABHISHEK-SER',
         mediaType: 1,
         renderLargerThumbnail: false,
         mediaUrl: mainImg // Main image
@@ -41,8 +40,8 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     }
   };
 
+  // Send the message
   await conn.sendMessage(m.chat, doc, { quoted: con });
-
 }
 
 handler.help = ['alive']
