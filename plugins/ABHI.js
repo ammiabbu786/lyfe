@@ -8,7 +8,7 @@ let handler = async (m, { conn, text }) => {
     if (!who) throw '*🎯Tag A Person*';
     if (global.owner.includes(who.split('@')[0])) throw 'This person is already an owner!';
     global.owner.push([who.split('@')[0], m.name, true]);
-    const caption = `*Now @${who.split('@')[0]} Got Acess To Owner Only Commands✅*`;
+    const caption = `*Now @${who.split('@')[0]} Got Acess To The Owner Only Commands✅*`;
     await conn.reply(m.chat, caption, m, {
         mentions: conn.parseMention(caption)
     });
