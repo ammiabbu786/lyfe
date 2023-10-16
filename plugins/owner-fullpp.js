@@ -1,31 +1,22 @@
 let handler = async (m, { conn, text, usedPrefix, command }) => {
-  if (!m.reply_message.image) {
-    return await conn.reply(m.chat, "_Reply to a photo_", m)
+  if (!m.reply_message || !m.reply_message.image) {
+    return await conn.reply(m.chat, "_Reply to a photo_", m);
   }
 
-  let media = await conn.downloadAndSaveMediaMessage(m.reply_message)
-  await setFullProfilePicture(conn, media, m)
-  await conn.reply(m.chat, "_Profile Picture Updated_", m)
+  let media = await conn.downloadAndSaveMediaMessage(m.reply_message);
+  await setFullProfilePicture(conn, media, m);
+  await conn.reply(m.chat, "_Profile Picture Updated_", m);
 }
 
-async function setFullProfilePicture(conn, imagePath, message) {
-  const { query } = conn
-  const image = await generateFullProfilePicture(imagePath)
-  
-  const request = {
-    to: conn.user.jid,
-    type: 'set',
-    xmlns: 'w:profile:picture',
-    content: [
-      {
-        tag: 'picture',
-        attrs: { type: 'image' },
-        content: image
-      }
-    ]
-  }
+async function setFullProfilePicture(conn, image, m) {
+  const jimp = await Jimp.read(image);
+  const min = jimp.getWidth();
+  const max = jimp.getHeight();
+  const cropped = jimp.crop(0, 0, min, max);
 
-  await query(request)
+  const img = await cropped.scaleToFit(324, 720).getBufferAsync(Jimp.MIME_JPEG);
+
+  await conn.updateProfilePicture(conn.user.jid, img);
 }
 
 async function generateFullProfilePicture(imagePath) {
