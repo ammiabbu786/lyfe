@@ -32,7 +32,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
         title: smallText,
         body: mainText,
         thumbnailUrl: smallImg, // Small image
-        sourceUrl: 'https://chat.whatsapp.com/F3sB3pR3tClBvVmlIkqDJp',
+        sourceUrl: 'https://github.com/AbhishekSuresh2/ABHISHEK-SER',
         mediaType: 1,
         renderLargerThumbnail: false,
         mediaUrl: mainImg // Main image
