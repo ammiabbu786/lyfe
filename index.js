@@ -73,8 +73,7 @@ function start(file) {
     if (!rl.listenerCount()) rl.on('line', line => {
       p.emit('message', line.trim())
     })
-  // Send WhatsApp message
-  conn.sendMessage("+919074692450", { text: "test" });
+  // console.log(p)
 }
 
 start('main.js')
