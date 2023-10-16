@@ -11,7 +11,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     key: { fromMe: false, participant: `${m.sender.split`@`[0]}@s.whatsapp.net`, ...(m.chat ? { remoteJid: '16504228206@s.whatsapp.net' } : {}) },
     message: {
       contactMessage: {
-        displayName: "I'M Alive", // Replace with the desired display name
+        displayName: "𝙰𝙱𝙷𝙸𝚂𝙷𝙴𝙺-𝚂𝙴𝚁", // Replace with the desired display name
         vcard: `BEGIN:VCARD\nVERSION:3.0\nN:;a,;;;\nFN:Your Name\nitem1.TEL;waid=${m.sender.split('@')[0]}:${m.sender.split('@')[0]}\nitem1.X-ABLabel:Ponsel\nEND:VCARD`
       }
     }
