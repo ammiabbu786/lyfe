@@ -1,6 +1,6 @@
 let handler = async (m, { conn, text, usedPrefix, command }) => {
   // Define the content
-  let mainImg = "https://cdn.wallpapersafari.com/71/19/7ZfcpT.png"; // Main image URL
+  let mainImg = "https://replicate.delivery/pbxt/QbP6Fh3ZXwKON9SCB70ERGwwgeeSbztwKIOIzhUeXFkwnFHiA/out.png"; // Main image URL
   let smallImg = "https://replicate.delivery/pbxt/QbP6Fh3ZXwKON9SCB70ERGwwgeeSbztwKIOIzhUeXFkwnFHiA/out.png"; // Small image URL
   let smallText = "ABHISHEK-SER"; // Small text
   let mainText = "I'M Alive"; // Main text
@@ -24,7 +24,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     mimetype: 'audio/mp4',
     ptt: true,
     waveform: [100, 0, 100, 0, 100, 0, 100],
-    fileName: "Guru",
+    fileName: "ABHISHEK-SER",
 
     contextInfo: {
       mentionedJid: [m.sender],
@@ -34,7 +34,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
         thumbnailUrl: smallImg, // Small image
         sourceUrl: 'https://chat.whatsapp.com/F3sB3pR3tClBvVmlIkqDJp',
         mediaType: 1,
-        renderLargerThumbnail: true,
+        renderLargerThumbnail: false,
         mediaUrl: mainImg // Main image
       }
     }
