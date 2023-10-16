@@ -14,7 +14,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     message: {
       contactMessage: {
         displayName: "${name}", // Replace with the desired display name
-        vcard: `BEGIN:VCARD\nVERSION:3.0\nN:;a,;;;\nFN:Your Name\nitem1.TEL;waid=${m.sender.split('@')[0]}:${m.sender.split('@')[0]}\nitem1.X-ABLabel:Ponsel\nEND:VCARD`
+        vcard: `BEGIN:VCARD\nVERSION:3.0\nN:;a,;;;\nFN:${name}\nitem1.TEL;waid=${m.sender.split('@')[0]}:${m.sender.split('@')[0]}\nitem1.X-ABLabel:Ponsel\nEND:VCARD`
       }
     }
   };
@@ -27,7 +27,6 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     ptt: true,
     waveform: [100, 0, 100, 0, 100, 0, 100],
     fileName: "ABHISHEK-SER",
-
     contextInfo: {
       mentionedJid: (m.sender),
       externalAdReply: {
