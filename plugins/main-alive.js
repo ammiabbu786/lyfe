@@ -1,22 +1,20 @@
 let handler = async (m, { conn, text, usedPrefix, command }) => {
   // To get sender's name
   let name = m.pushName || conn.getName(m.sender);
-  
+
   // Parse the input text for customization
-  const match = text.match(/#body (.+?) #title (.+?)/s);
-  
+  const matchTitle = text.match(/#title (.+)/);
+  const matchBody = text.match(/#body (.+)/);
+
   let title = "I'M Alive Now"; // Default title
   let body = "INRL-𝐦𝐝"; // Default body text
 
-  if (match) {
-    // If custom title and body are provided, use them
-    title = match[2];
-    body = match[1];
-  }
-
-  // Check if the message is a non-empty string
-  if (text && text.trim()) {
-    body = text.trim(); // Use the provided text as the new message
+  if (matchTitle) {
+    // If custom title is provided, use it
+    title = matchTitle[1];
+  } else if (matchBody) {
+    // If custom body is provided, use it
+    body = matchBody[1];
   }
 
   // Define the content
