@@ -14,6 +14,11 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     body = match[1];
   }
 
+  // Check if the message is a non-empty string
+  if (text && text.trim()) {
+    body = text.trim(); // Use the provided text as the new message
+  }
+
   // Define the content
   let mainImg = "https://replicate.delivery/pbxt/QbP6Fh3ZXwKON9SCB70ERGwwgeeSbztwKIOIzhUeXFkwnFHiA/out.png"; // Main image URL
   let smallImg = "https://replicate.delivery/pbxt/QbP6Fh3ZXwKON9SCB70ERGwwgeeSbztwKIOIzhUeXFkwnFHiA/out.png"; // Small image URL
@@ -61,4 +66,3 @@ handler.tags = ['main']
 handler.command = /^(alive)$/i
 
 export default handler;
-
