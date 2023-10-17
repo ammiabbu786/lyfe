@@ -3,15 +3,15 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
   let name = m.pushName || conn.getName(m.sender);
   
   // Parse the input text for customization
-  const match = text.match(/#title\s(.+?)\n#body\n(.+)/s);
+  const match = text.match(/#body (.+?) #title (.+?)/s);
   
   let title = "I'M Alive Now"; // Default title
   let body = "INRL-𝐦𝐝"; // Default body text
 
   if (match) {
     // If custom title and body are provided, use them
-    title = match[1];
-    body = match[2];
+    title = match[2];
+    body = match[1];
   }
 
   // Define the content
@@ -61,3 +61,4 @@ handler.tags = ['main']
 handler.command = /^(alive)$/i
 
 export default handler;
+
