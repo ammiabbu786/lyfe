@@ -1,11 +1,19 @@
-let handler = async (m, { conn, text, usedPrefix, command }) => {
-  if (!m.reply_message || !m.reply_message.image) {
-    return await conn.reply(m.chat, "_Reply to a photo_", m);
+let handler = async (m, { conn, text }) => {
+  if (m.quoted && m.quoted.fileSha256) {
+    try {
+      // Download and save the image
+      let media = await conn.downloadAndSaveMediaMessage(m.quoted);
+      // Set it as the bot's profile picture
+      await setFullProfilePicture(conn, media, m);
+      // Respond to the user
+      await conn.reply(m.chat, "_Profile Picture Updated_", m);
+    } catch (e) {
+      console.error(e);
+      conn.reply(m.chat, "_An error occurred while setting the profile picture._", m);
+    }
+  } else {
+    conn.reply(m.chat, "_Please reply to an image to set it as the profile picture._", m);
   }
-
-  let media = await conn.downloadAndSaveMediaMessage(m.reply_message);
-  await setFullProfilePicture(conn, media, m);
-  await conn.reply(m.chat, "_Profile Picture Updated_", m);
 }
 
 async function setFullProfilePicture(conn, image, m) {
@@ -14,24 +22,9 @@ async function setFullProfilePicture(conn, image, m) {
   const max = jimp.getHeight();
   const cropped = jimp.crop(0, 0, min, max);
 
-  const img = await cropped.scaleToFit(324, 720).getBufferAsync(Jimp.MIME_JPEG);
+  const img = await cropped.scaleToFit(720, 720).getBufferAsync(Jimp.MIME_JPEG);
 
   await conn.updateProfilePicture(conn.user.jid, img);
-}
-
-async function generateFullProfilePicture(imagePath) {
-  const jimp = await Jimp.read(imagePath)
-  const width = 720
-  const height = 720
-  const min = Math.min(jimp.getWidth(), jimp.getHeight())
-  const left = (jimp.getWidth() - min) / 2
-  const top = (jimp.getHeight() - min) / 2
-  const image = jimp.clone()
-  .crop(left, top, min, min)
-  .resize(width, height)
-  .getBufferAsync(Jimp.MIME_JPEG)
-
-  return image
 }
 
 handler.help = ['fullpp']
