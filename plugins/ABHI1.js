@@ -7,11 +7,11 @@ let handler = async (m, { conn, args, text, usedPrefix, command }) => {
 	let type = command.toLowerCase();
 	
 	switch (type) {
-	  case 'try':
-		if (!text) throw tee;
-		let chut = `https://api.lolhuman.xyz/api/ephoto1/anonymhacker?apikey=${lolkeysapi}&text=${encodeURIComponent(text)}`;
-		conn.sendFile(m.chat, chut, 'logo.png', `✅ Result`, m);
-		m.react(done);
+	  case 'hack': 
+	if (!text) throw tee;
+	let rand = `https://api.lolhuman.xyz/api/ephoto1/anonymhacker?apikey=${lolkeysapi}&text=${encodeURIComponent(text)}`;
+	conn.sendFile(m.chat, rand, 'logo.png', `_Made By ©ABHISHEK-SER_`, m);
+	m.react(done);
 		break;
 		
 	  case 'gfx2': 
@@ -98,9 +98,9 @@ let handler = async (m, { conn, args, text, usedPrefix, command }) => {
 	} 
   };
   
-  handler.help = ['hack', 'gfx12'];
+  handler.help = ['hack'];
   handler.tags = ['maker'];
-  handler.command = /^(hack|gfx2|gfx3|gfx4|gfx5|gfx6|gfx7|gfx8|gfx9|gfx10|gfx11|gfx12)$/i;
+  handler.command = /^(hack)$/i;
   handler.diamond = false;
   
   export default handler;
