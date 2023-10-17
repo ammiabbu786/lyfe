@@ -100,7 +100,7 @@ let handler = async (m, { conn, args, text, usedPrefix, command }) => {
   
   handler.help = ['hack'];
   handler.tags = ['maker'];
-  handler.command = /^(hack)$/i;
+  handler.command = /^hack/i;
   handler.diamond = false;
   
   export default handler;
