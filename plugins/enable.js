@@ -40,21 +40,6 @@ const listMessage = {
   let type = (args[0] || '').toLowerCase()
   let isAll = false, isUser = false
   switch (type) {
-    case 'welcome':
-    case 'bv':
-    case 'bienvenida':
-      if (!m.isGroup) {
-        if (!isOwner) {
-          global.dfail('group', m, conn)
-          throw false
-        }
-      } else if (!isAdmin) {
-        global.dfail('admin', m, conn)
-        throw false
-      }
-      chat.welcome = isEnable
-      break
-      
       case 'detect':
       case 'detector':
         if (!m.isGroup) {
