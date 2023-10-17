@@ -1,27 +1,18 @@
-conn.on('group-participants-update', async (m) => {
-  if (m.action === 'add') {
-    let groupId = m.jid;
-    let addedMembers = m.participants;
-    
-    for (let participant of addedMembers) {
-      // Replace 'YourWelcomeMessage' with your desired welcome message.
-      let welcomeMessage = `Welcome to the group, @${participant.split('@')[0]}! 🎉`;
-      
-      // You can customize the ad reply content here.
-      let adReply = {
-        title: "Welcome Message",
-        body: welcomeMessage,
-        thumbnailUrl: "https://i.ibb.co/b2qG4DZ/57649e05a287.jpg", // URL of the welcome image
-        sourceUrl: "https://example.com/group-link", // URL of your group link
-        mediaType: 1, // 1 for image
-        renderLargerThumbnail: true
-      };
+const { MessageType, Mimetype } = require('@adiwajshing/baileys');
 
-      // Send the welcome message with the ad reply.
-      await conn.sendMessage(groupId, welcomeMessage, MessageType.text, {
-        quoted: adReply,
-        contextInfo: { mentionedJid: [participant] }
-      });
-    }
-  }
-});
+const welcomeMessage = (participant, user, conn) => {
+    return async (m, event) => {
+        const group = await conn.groupMetadata(event.jid);
+        const welcomeText = `Welcome to ${group.subject}, @${participant.split("@")[0]}!`;
+        conn.sendMessage(event.jid, welcomeText, MessageType.text);
+        
+        // Get the user's profile picture
+        const profilePic = await conn.getProfilePicture(participant);
+        if (profilePic) {
+            const image = await conn.downloadMedia(profilePic);
+            conn.sendMessage(event.jid, image, MessageType.image, { mimetype: Mimetype.jpeg });
+        }
+    };
+};
+
+conn.on('group-participants-update', welcomeMessage);
