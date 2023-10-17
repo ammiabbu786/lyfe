@@ -1,26 +1,25 @@
-const handler = async (m, {text, conn, usedPrefix, command}) => {
-  const why = `🎯 Tag Or Mention Someone 📌 Example: *${usedPrefix + command} @${m.sender.split('@')[0]}*`;
-  const who = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : text ? text.replace(/[^0-9]/g, '') + '@s.whatsapp.net' : false;
-  if (!who) conn.reply(m.chat, why, m, {mentions: [m.sender]});
-  const res = [];
-  switch (command) {
-    case 'blok': case 'block':
-      if (who) {
-        await conn.updateBlockStatus(who, 'block').then(() => {
-          res.push(who);
-        });
-      } else conn.reply(m.chat, why, m, {mentions: [m.sender]});
-      break;
-    case 'unblok': case 'unblock':
-      if (who) {
-        await conn.updateBlockStatus(who, 'unblock').then(() => {
-          res.push(who);
-        });
-      } else conn.reply(m.chat, why, m, {mentions: [m.sender]});
-      break;
+let handler = async (m, { conn, text, command }) => {
+
+  if (!isOwner) {
+    return conn.reply(m.chat, 'You are not authorized to clear messages.', m);
   }
-  if (res[0]) conn.reply(m.chat, `_✅Done_ ${res ? `*${res.map((v) => '@' + v.split('@')[0])}` : ''}*`, m, {mentions: res});
-};
-handler.command = /^(block|unblock)$/i;
-handler.rowner = true;
+
+  // Check the command, e.g., .clear chat or .clear group
+  if (command === 'clear') {
+    // Check if it's a chat or group
+    if (m.isGroup) {
+      // Delete all messages in the group
+      await conn.clearChat(m.chat.id);
+      conn.reply(m.chat, 'Group messages cleared.', m);
+    } else {
+      // Clear the chat for one-on-one conversation
+      await conn.clearChat(m.chat.id);
+      conn.reply(m.chat, 'Chat cleared.', m);
+    }
+  }
+}
+
+handler.command = /^clear$/i;
+handler.owner = true
+
 export default handler;
