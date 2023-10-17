@@ -7,7 +7,7 @@ let handler = async (m, { conn, args, text, usedPrefix, command }) => {
 	let type = command.toLowerCase();
 	
 	switch (type) {
-	  case 'hack':
+	  case 'try':
 		if (!text) throw tee;
 		let chut = `https://api.lolhuman.xyz/api/ephoto1/anonymhacker?apikey=${lolkeysapi}&text=${encodeURIComponent(text)}`;
 		conn.sendFile(m.chat, chut, 'logo.png', `✅ Result`, m);
