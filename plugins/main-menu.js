@@ -7,19 +7,19 @@ let handler = async (m, { conn, usedPrefix, command }) => {
   let more = String.fromCharCode(8206);
   let readMore = more.repeat(850);
   let currentTime = moment.tz('Asia/Kolkata').format('HH:mm');
-  let greeting = 'Good Morning';
+  let greeting = 'Good Morning☀️';
 
   if (currentTime >= '12:00' && currentTime < '17:00') {
-    greeting = 'Good Afternoon';
+    greeting = 'Good Afternoon🌞';
   } else if (currentTime >= '17:00' && currentTime < '20:00') {
-    greeting = 'Good Evening';
+    greeting = 'Good Evening🌆';
   } else if (currentTime >= '20:00' || currentTime < '04:00') {
-    greeting = 'Good Night';
+    greeting = 'Good Night🌃';
   }
 
   let user = await conn.getName(who); // Get the name of the user
   let lkr = `╭───❮ *𝙱𝙾𝚃 𝙼𝙴𝙽𝚄* ❯
-│ ${greeting}, ${user}
+│ *${greeting}*, ${user}
 │ _${usedPrefix}ping_
 │ _${usedPrefix}uptime_
 │ _${usedPrefix}blocklist_
