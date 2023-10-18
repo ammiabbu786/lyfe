@@ -9,7 +9,7 @@ let handler = async (m, { conn, args, text, usedPrefix, command }) => {
 	switch (type) {
 	  case 'gfx1':
 		if (!text) throw tee;
-		let chut = `https://api.caliph.biz.id/api/kaneki?nama=${encodeURIComponent(text)}&apikey=caliphkey`;
+		let chut = `https://textpro.me/write-text-on-foggy-window-online-free-1015.html?apikey=${lolkeysapi}&text=${encodeURIComponent(text)`;
 		conn.sendFile(m.chat, chut, 'logo.png', `✅ Result`, m);
 		m.react(done);
 		break;
@@ -18,7 +18,7 @@ let handler = async (m, { conn, args, text, usedPrefix, command }) => {
 		if (!text) throw too;
 		if (!text.includes('+')) throw too;
 		let [a, b] = text.split('+');
-		let loda = `https://api.caliph.biz.id/api/girlneko?nama=${encodeURIComponent(a.trim())}&nama2=${encodeURIComponent(b.trim())}&apikey=caliphkey`;
+		let loda = `https://api.caliph.biz.id/api/girlneko?nama=${encodeURIComponent(a.trim())}&nama2=${encodeURIComponent(b.trim())}&apikey=caliphkey)}`;
 		conn.sendFile(m.chat, loda, 'logo.png', `✅ Result`, m);
 		
 		m.react(done);
