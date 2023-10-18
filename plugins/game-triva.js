@@ -45,8 +45,8 @@ let handler = async (m, { conn }) => {
     sendNextQuestion();
 }
 
-handler.help = ['alive'];
+handler.help = ['test'];
 handler.tags = ['main'];
-handler.command = /^(alive)$/i;
+handler.command = /test;
 
 export default handler;
