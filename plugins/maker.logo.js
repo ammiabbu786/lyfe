@@ -61,7 +61,7 @@ let handler = async (m, { conn, args, text, usedPrefix, command }) => {
 	
 	m.react(done);
 	break 
-	case 'gfx8': 
+	case 'hack': 
 	if (!text) throw tee;
 	let rand = `https://api.lolhuman.xyz/api/ephoto1/anonymhacker?apikey=${lolkeysapi}&text=${encodeURIComponent(text)}`;
 	conn.sendFile(m.chat, rand, 'logo.png', `✅ Result`, m);
@@ -99,9 +99,9 @@ let handler = async (m, { conn, args, text, usedPrefix, command }) => {
 	} 
   };
   
-  handler.help = ['gfx1', 'gfx2', 'gfx3', 'gfx4', 'gfx5', 'gfx6', 'gfx7', 'gfx8', 'gfx9', 'gfx10', 'gfx11', 'gfx12'];
+  handler.help = ['gfx1', 'gfx2', 'gfx3', 'gfx4', 'gfx5', 'gfx6', 'gfx7', 'hack', 'gfx9', 'gfx10', 'gfx11', 'gfx12'];
   handler.tags = ['maker'];
-  handler.command = /^(gfx1|gfx2|gfx3|gfx4|gfx5|gfx6|gfx7|gfx8|gfx9|gfx10|gfx11|gfx12)$/i;
+  handler.command = /^(gfx1|gfx2|gfx3|gfx4|gfx5|gfx6|gfx7|hack|gfx9|gfx10|gfx11|gfx12)$/i;
   handler.diamond = false;
   
   export default handler;
