@@ -17,8 +17,9 @@ let handler = async (m, { conn, usedPrefix, command }) => {
     greeting = 'Good Night';
   }
 
-  let lkr = `${greeting}
-╭───❮ *𝙱𝙾𝚃 𝙼𝙴𝙽𝚄* ❯
+  let user = await conn.getName(who); // Get the name of the user
+  let lkr = `╭───❮ *𝙱𝙾𝚃 𝙼𝙴𝙽𝚄* ❯
+│ ${greeting}, ${user}
 │ _${usedPrefix}ping_
 │ _${usedPrefix}uptime_
 │ _${usedPrefix}blocklist_
@@ -31,4 +32,4 @@ handler.help = ['allmenu'];
 handler.tags = ['main'];
 handler.command = ['allmenu', 'menu'];
 
-export default handler;
+export default handler
