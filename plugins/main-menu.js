@@ -4,7 +4,9 @@ if (!(who in global.db.data.users)) throw `❌ The User Is Not Found In My Datab
 let pp = './Abhi.jpg'
 let more = String.fromCharCode(8206)
 let readMore = more.repeat(850) 
-let lkr = `╭───❮ *𝙱𝙾𝚃 𝙼𝙴𝙽𝚄* ❯
+let lkr = `「 ${botname} あ⁩ 」\n
+  *%ucpn*
+╭───❮ *𝙱𝙾𝚃 𝙼𝙴𝙽𝚄* ❯
 │ _${usedPrefix}ping_
 │ _${usedPrefix}uptime_
 │ _${usedPrefix}enable_
@@ -276,3 +278,45 @@ handler.tags = ['main']
 handler.command = ['allmenu', 'menu'] 
 
 export default handler
+
+function pickRandom(list) {
+  return list[Math.floor(Math.random() * list.length)]
+ }
+ 
+ const more = String.fromCharCode(8206)
+ const readMore = more.repeat(4001)
+ 
+ function clockString(ms) {
+  let h = isNaN(ms) ? "--" : Math.floor(ms / 3600000)
+  let m = isNaN(ms) ? "--" : Math.floor(ms / 60000) % 60
+  let s = isNaN(ms) ? "--" : Math.floor(ms / 1000) % 60
+  return [h, " H ", m, " M ", s, " S "].map(v => v.toString().padStart(2, 0)).join("")
+ }
+ 
+ function clockStringP(ms) {
+  let ye = isNaN(ms) ? "--" : Math.floor(ms / 31104000000) % 10
+  let mo = isNaN(ms) ? "--" : Math.floor(ms / 2592000000) % 12
+  let d = isNaN(ms) ? "--" : Math.floor(ms / 86400000) % 30
+  let h = isNaN(ms) ? "--" : Math.floor(ms / 3600000) % 24
+  let m = isNaN(ms) ? "--" : Math.floor(ms / 60000) % 60
+  let s = isNaN(ms) ? "--" : Math.floor(ms / 1000) % 60
+  return [ye, " *Years 🗓️*\n", mo, " *Month 🌙*\n", d, " *Days ☀️*\n", h, " *Hours 🕐*\n", m, " *Minute ⏰*\n", s, " *Second ⏱️*"].map(v => v.toString().padStart(2, 0)).join("")
+ }
+ 
+ function ucapan() {
+  const time = moment.tz("Asia/Kolkata").format("HH")
+  let res = "Good morning ☀️"
+  if (time >= 4) {
+   res = "Good Morning 🌄"
+  }
+  if (time >= 10) {
+   res = "Good Afternoon ☀️"
+  }
+  if (time >= 15) {
+   res = "Good Afternoon 🌇"
+  }
+  if (time >= 18) {
+   res = "Good Night 🌙"
+  }
+  return res
+ }
