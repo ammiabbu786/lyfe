@@ -1,11 +1,6 @@
-let handler = async (m, { conn, usedPrefix, command}) => {
-let who = m.quoted ? m.quoted.sender : m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : m.fromMe ? conn.user.jid : m.sender
-if (!(who in global.db.data.users)) throw `❌ The User Is Not Found In My Database`
-let pp = './Abhi.jpg'
-let more = String.fromCharCode(8206)
-let readMore = more.repeat(850) 
+import moment from "moment-timezone"
 let lkr = `「 ${botname} あ⁩ 」\n
-  *%ucpn*
+       *%ucpn*
 ╭───❮ *𝙱𝙾𝚃 𝙼𝙴𝙽𝚄* ❯
 │ _${usedPrefix}ping_
 │ _${usedPrefix}uptime_
@@ -412,7 +407,7 @@ ${readMore}
  readmore: readMore
    }
    text = text.replace(new RegExp(`%(${Object.keys(replace).sort((a, b) => b.length - a.length).join`|`})`, "g"), (_, name) => "" + replace[name])
-   const pp = './Assets/Gurulogo.jpg'
+   const pp = './Abhi.jpg'
   
  
  let contact = { key: { fromMe: false, participant: `${m.sender.split`@`[0]}@s.whatsapp.net`, ...(m.chat ? { remoteJid: '16504228206@s.whatsapp.net' } : {}) }, message: { contactMessage: { displayName: `${name}`, vcard: `BEGIN:VCARD\nVERSION:3.0\nN:;a,;;;\nFN:${name}\nitem1.TEL;waid=${m.sender.split('@')[0]}:${m.sender.split('@')[0]}\nitem1.X-ABLabel:Ponsel\nEND:VCARD`}}}
