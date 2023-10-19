@@ -14,7 +14,7 @@ var handler = async (m, { conn, command, text, usedPrefix }) => {
 
   // Add a filter to search for song-related content
   let search = await yts(`${text} Song`);
-  if (!search.videos.length) throw 'Song Not Found, Try Another Title';
+  if (!search.videos.length) throw '*Song Not Found, Try Another Title*';
 
   // Get the first video from the search results
   let vid = search.videos[0];
@@ -22,7 +22,7 @@ var handler = async (m, { conn, command, text, usedPrefix }) => {
   let { title, thumbnail, url } = vid;
 
   // Send the search results message
-  let searchResultsMessage = `Search Results For "${text} Song":\n\n`;
+  let searchResultsMessage = `✅Search Results For "${text} Song":\n\n`;
   for (let i = 0; i < search.videos.length; i++) {
     searchResultsMessage += `${i + 1}. ${search.videos[i].title}\n`;
   }
@@ -53,16 +53,14 @@ var handler = async (m, { conn, command, text, usedPrefix }) => {
     fileName: `${title}`
   };
 
-  // Send the song with the added text
-  await conn.sendMessage(m.chat, 'Here Is Your Song', { quoted: m });
   await conn.sendMessage(m.chat, doc, { quoted: m });
 
   // Delete the audio file
   fs.unlink(`${tmpDir}/${title}.mp3`, (err) => {
     if (err) {
-      console.error(`Failed to delete audio file: ${err}`);
+      console.error(`Failed To Delete Audio File: ${err}`);
     } else {
-      console.log(`Deleted audio file: ${tmpDir}/${title}.mp3`);
+      console.log(`Deleted Audio File: ${tmpDir}/${title}.mp3`);
     }
   });
 };
