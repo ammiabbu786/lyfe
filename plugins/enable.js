@@ -127,8 +127,8 @@ const listMessage = {
     break
 
     case 'autolevelup':
-    isUser = true
-     user.autolevelup = isEnable
+    isOwner = true
+     bot.autolevelup = isEnable
      break
      
      case 'chatbot':
