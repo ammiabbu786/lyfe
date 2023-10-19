@@ -10,7 +10,7 @@ const streamPipeline = promisify(pipeline);
 var handler = async (m, { conn, command, text, usedPrefix }) => {
   if (!text) throw `Use example ${usedPrefix}${command} Heat Waves `; // Add "music" at the end to specify that it's music.
 
-  await m.react(sdc);
+  await m.reply('Finding your song...');
 
   // Add a filter to search for song-related content
   let search = await yts(`${text} Song`);
@@ -19,16 +19,7 @@ var handler = async (m, { conn, command, text, usedPrefix }) => {
   // Get the first video from the search results
   let vid = search.videos[0];
 
-  let { title, thumbnail, timestamp, views, ago, url } = vid;
-  let wm = 'ABHISHEK-SER';
-
-  let captvid = `╭──── 〔 Y O U T U B E 〕 ─⬣
-  ⬡ Title: ${title}
-  ⬡ Duration: ${timestamp}
-  ⬡ Views: ${views}
-  ⬡ Upload: ${ago}
-  ⬡ Link: ${url}
-╰────────⬣`;
+  let { title, thumbnail, url } = vid;
 
   // Send the search results message
   let searchResultsMessage = `Search Results For "${text} Song":\n\n`;
@@ -37,8 +28,6 @@ var handler = async (m, { conn, command, text, usedPrefix }) => {
   }
 
   conn.sendMessage(m.chat, searchResultsMessage, { quoted: m });
-
-  conn.sendMessage(m.chat, { image: { url: thumbnail }, caption: captvid, footer: author }, { quoted: m });
 
   const audioStream = ytdl(url, {
     filter: 'audioonly',
@@ -54,23 +43,14 @@ var handler = async (m, { conn, command, text, usedPrefix }) => {
   // Start the download
   await streamPipeline(audioStream, writableStream);
 
+  await m.reply('Uploading your song...');
+
   let doc = {
     audio: {
       url: `${tmpDir}/${title}.mp3`
     },
     mimetype: 'audio/mp4',
-    fileName: `${title}`,
-    contextInfo: {
-      externalAdReply: {
-        showAdAttribution: true,
-        mediaType: 2,
-        mediaUrl: url,
-        title: title,
-        body: wm,
-        sourceUrl: url,
-        thumbnail: await (await conn.getFile(thumbnail)).data
-      }
-    }
+    fileName: `${title}`
   };
 
   await conn.sendMessage(m.chat, doc, { quoted: m });
