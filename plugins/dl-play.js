@@ -30,7 +30,7 @@ var handler = async (m, { conn, command, text, usedPrefix }) => {
   conn.sendMessage(m.chat, searchResultsMessage, { quoted: m });
 
   // React with ⬇️ while downloading
-  conn.react(m.chat, '⬇️', m);
+  m.react('⬇️');
 
   const audioStream = ytdl(url, {
     filter: 'audioonly',
@@ -47,7 +47,7 @@ var handler = async (m, { conn, command, text, usedPrefix }) => {
   await streamPipeline(audioStream, writableStream);
 
   // React with ⬆️ after uploading
-  conn.react(m.chat, '⬆️', m);
+  m.react('⬆️');
 
   let doc = {
     audio: {
