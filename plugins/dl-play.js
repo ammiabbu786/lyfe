@@ -12,8 +12,12 @@ var handler = async (m, { conn, command, text, usedPrefix }) => {
   await m.react(sdc);
 
   let search = await yts(text);
-  let vid = search.videos[Math.floor(Math.random() * search.videos.length)];
-  if (!search) throw 'Video Not Found, Try Another Title';
+  if (!search.videos.length) throw 'Video Not Found, Try Another Title';
+
+  // Get a random video from the search results
+  let randomIndex = Math.floor(Math.random() * search.videos.length);
+  let vid = search.videos[randomIndex];
+
   let { title, thumbnail, timestamp, views, ago, url } = vid;
   let wm = 'ABHISHEK-SER';
 
@@ -25,8 +29,15 @@ var handler = async (m, { conn, command, text, usedPrefix }) => {
   ⬡ Link: ${url}
 ╰────────⬣`;
 
-  conn.sendMessage(m.chat, { image: { url: thumbnail }, caption: captvid, footer: author }, { quoted: m });
+  // Send the search results message
+  let searchResultsMessage = `Search Results for "${text}":\n\n`;
+  for (let i = 0; i < search.videos.length; i++) {
+    searchResultsMessage += `${i + 1}. ${search.videos[i].title}\n`;
+  }
 
+  conn.sendMessage(m.chat, searchResultsMessage, { quoted: m });
+
+  conn.sendMessage(m.chat, { image: { url: thumbnail }, caption: captvid, footer: author }, { quoted: m });
 
   const audioStream = ytdl(url, {
     filter: 'audioonly',
