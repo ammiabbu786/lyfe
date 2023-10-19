@@ -8,11 +8,13 @@ import os from 'os';
 const streamPipeline = promisify(pipeline);
 
 var handler = async (m, { conn, command, text, usedPrefix }) => {
-  if (!text) throw `Use example ${usedPrefix}${command} naruto blue bird`;
+  if (!text) throw `Use example ${usedPrefix}${command} naruto blue bird music`; // Add "music" at the end to specify that it's music.
+
   await m.react(sdc);
 
-  let search = await yts(text);
-  if (!search.videos.length) throw 'Video Not Found, Try Another Title';
+  // Add a filter to search for music-related content
+  let search = await yts(`${text} music`);
+  if (!search.videos.length) throw 'Music Not Found, Try Another Title';
 
   // Get a random video from the search results
   let randomIndex = Math.floor(Math.random() * search.videos.length);
@@ -30,7 +32,7 @@ var handler = async (m, { conn, command, text, usedPrefix }) => {
 ╰────────⬣`;
 
   // Send the search results message
-  let searchResultsMessage = `Search Results for "${text}":\n\n`;
+  let searchResultsMessage = `Search Results for "${text} music":\n\n`;
   for (let i = 0; i < search.videos.length; i++) {
     searchResultsMessage += `${i + 1}. ${search.videos[i].title}\n`;
   }
