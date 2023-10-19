@@ -30,7 +30,7 @@ var handler = async (m, { conn, command, text, usedPrefix }) => {
   conn.sendMessage(m.chat, searchResultsMessage, { quoted: m });
 
   // React with ⬇️ while downloading
-  conn.reaction(m.chat, '⬇️', m);
+  conn.react(m.chat, '⬇️', m);
 
   const audioStream = ytdl(url, {
     filter: 'audioonly',
@@ -47,7 +47,7 @@ var handler = async (m, { conn, command, text, usedPrefix }) => {
   await streamPipeline(audioStream, writableStream);
 
   // React with ⬆️ after uploading
-  conn.reaction(m.chat, '⬆️', m);
+  conn.react(m.chat, '⬆️', m);
 
   let doc = {
     audio: {
@@ -60,7 +60,7 @@ var handler = async (m, { conn, command, text, usedPrefix }) => {
   await conn.sendMessage(m.chat, doc, { quoted: m });
 
   // React with ✅ after sending the song
-  conn.reaction(m.chat, '✅', m);
+  conn.react(m.chat, '✅', m);
 
   // Delete the audio file
   fs.unlink(`${tmpDir}/${title}.mp3`, (err) => {
