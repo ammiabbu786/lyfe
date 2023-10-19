@@ -10,7 +10,7 @@ const streamPipeline = promisify(pipeline);
 var handler = async (m, { conn, command, text, usedPrefix }) => {
   if (!text) throw `Use example ${usedPrefix}${command} Heat Waves `; // Add "music" at the end to specify that it's music.
 
-  await m.reply('_⬇️𝙰𝙱𝙷𝙸𝚂𝙷𝙴𝙺-𝚂𝙴𝚁 Downloading Your Song🎧_');
+  await m.reply('*⬇️𝙰𝙱𝙷𝙸𝚂𝙷𝙴𝙺-𝚂𝙴𝚁 Downloading Your Song🎧*');
 
   // Add a filter to search for song-related content
   let search = await yts(`${text} Song`);
@@ -29,9 +29,6 @@ var handler = async (m, { conn, command, text, usedPrefix }) => {
 
   conn.sendMessage(m.chat, searchResultsMessage, { quoted: m });
 
-  // React with ⬇️ while downloading
-            m.react('⬇️')
-
   const audioStream = ytdl(url, {
     filter: 'audioonly',
     quality: 'highestaudio',
@@ -45,9 +42,8 @@ var handler = async (m, { conn, command, text, usedPrefix }) => {
 
   // Start the download
   await streamPipeline(audioStream, writableStream);
-                 m.react('⬆️')
-  // Display the message while uploading
-  await m.reply('_⬆️𝙰𝙱𝙷𝙸𝚂𝙷𝙴𝙺-𝚂𝙴𝚁 Uploading Your Song🎧_');
+
+  await m.reply('*⬆️𝙰𝙱𝙷𝙸𝚂𝙷𝙴𝙺-𝚂𝙴𝚁 Uploading Your Song🎧*');
 
   let doc = {
     audio: {
@@ -57,10 +53,9 @@ var handler = async (m, { conn, command, text, usedPrefix }) => {
     fileName: `${title}`
   };
 
+  // Send the song with the added text
+  await conn.sendMessage(m.chat, 'Here Is Your Song', { quoted: m });
   await conn.sendMessage(m.chat, doc, { quoted: m });
-
-  // React with ✅ after sending the song
-  m.react('✅')
 
   // Delete the audio file
   fs.unlink(`${tmpDir}/${title}.mp3`, (err) => {
