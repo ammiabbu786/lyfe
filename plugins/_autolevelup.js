@@ -1,8 +1,8 @@
 //import db from '../lib/database.js'
 import { canLevelUp } from '../lib/levelling.js'
 
-let handler = async (m, { conn, isOwner }) {
-    let bot = global.db.data.settings[conn.user.jid] || {}
+export async function before(m, { conn }) {
+    let user = global.db.data.settings[conn.user.jid] || {}
     if (!bot.autolevelup)
         return !0
     let before = user.level * 1
@@ -18,8 +18,9 @@ let handler = async (m, { conn, isOwner }) {
 │ *📍Level* *${before}* ‣  *${user.level}*
 │ *🐉Role*: *${user.role}*
 │ *Have A Good Day🎯*
+│ _*Type /off autolevelup*_
+│    _*To Deactivate*_
 ╰────────────
 	`.trim())
     }
 }
-
