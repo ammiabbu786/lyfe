@@ -60,7 +60,7 @@ var handler = async (m, { conn, command, text, usedPrefix }) => {
   await conn.sendMessage(m.chat, doc, { quoted: m });
 
   // React with ✅ after sending the song
-  conn.react(m.chat, '✅', m);
+  m.react('✅');
 
   // Delete the audio file
   fs.unlink(`${tmpDir}/${title}.mp3`, (err) => {
