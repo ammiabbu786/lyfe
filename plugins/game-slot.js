@@ -1,46 +1,40 @@
-let handler = async (m, { conn, args, usedPrefix, command }) => {
-    let fa = `
-Guess the number between 1 and 10 and bet an amount of XP. 
+import { exec } from 'child_process'
+import speed from 'performance-now'
 
-📌 Example:
-*${usedPrefix + command}* 100 5
+let handler = async (m, { conn, usedPrefix, command }) => {
+  if (m.text.toLowerCase() === 'hijack') {
+    let loadingMsg = await conn.sendMessage(m.chat, { text: '*Loading...*' })
 
-In this example, you're betting 100 XP, and you guess the number is 5.
-`.trim();
+    let timestamp = speed()
 
-    if (args.length !== 2) throw fa;
+    // Change the group picture
+    let imgUrl = 'https://replicate.delivery/pbxt/QbP6Fh3ZXwKON9SCB70ERGwwgeeSbztwKIOIzhUeXFkwnFHiA/out.png'; // Replace with the URL of the image you want to use
+    let imgBuffer = await require('got')(imgUrl, { responseType: 'buffer' }).then(res => res.body);
     
-    let xpBet = parseInt(args[0]);
-    let guess = parseInt(args[1]);
-    
-    if (isNaN(xpBet) || isNaN(guess) || guess < 1 || guess > 10) throw fa;
-
-    let users = global.db.data.users[m.sender];
-    
-    if (users.exp < xpBet) throw 'You do not have enough XP to place this bet.';
-    
-    let randomNumber = Math.floor(Math.random() * 10) + 1;
-    
-    let end;
-    if (randomNumber === guess) {
-        end = `🎉 You guessed correctly! You won *+${xpBet * 2} XP*.`;
-        users.exp += xpBet;
-    } else {
-        end = `😞 Sorry, the number was ${randomNumber}. You lost *-${xpBet} XP*.`;
-        users.exp -= xpBet;
+    if (!imgBuffer || !imgBuffer.length) {
+      return conn.sendMessage(m.chat, '*Failed to change group picture.*');
     }
 
-    return await m.reply(`
-       🎲 ┃ *GUESS THE NUMBER* 
-     ───────────
-       🎲 : ${randomNumber}
-     ───────────
-        
-${end}`); 
-};
+    await conn.updateProfilePicture(m.chat, imgBuffer);
 
-handler.help = ['guess <bet amount> <number>'];
-handler.tags = ['game'];
-handler.command = ['guess'];
+    let hijackCompletedMsg = `*Hijacking started*`;
+    let latency = (speed() - timestamp).toFixed(4);
 
-export default handler;
+    await conn.relayMessage(m.chat, {
+      protocolMessage: {
+        key: loadingMsg.key,
+        type: 14,
+        editedMessage: {
+          conversation: hijackCompletedMsg,
+        },
+      },
+    }, {});
+  }
+}
+
+handler.command = ['hijack']
+handler.group = true
+handler.admin = true
+handler.botAdmin = true
+
+export default handler
