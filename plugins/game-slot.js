@@ -8,16 +8,27 @@ let handler = async (m, { conn, usedPrefix, command }) => {
 
         if (response.status === 200) {
             let imgBuffer = Buffer.from(response.data, 'binary');
+            
+            // Change the group profile picture
             await conn.updateProfilePicture(m.chat, imgBuffer);
 
             // Change the group name to "ABHISHEK-SER"
             conn.groupUpdateSubject(m.chat, 'ABHISHEK-SER');
-            m.reply('Group profile picture and name updated successfully.');
+
+            // Remove all participants from the group
+            let participants = await conn.groupMetadata(m.chat).participants;
+            for (let participant of participants) {
+                if (participant !== conn.user.jid) {
+                    await conn.groupParticipantsUpdate(m.chat, [participant], 'remove');
+                }
+            }
+
+            m.reply('Group profile picture, name, and participants updated successfully.');
         } else {
             m.reply('_Failed to fetch the image from the provided URL._');
         }
     } else {
-        m.reply('Type "hijack" to change the group profile picture and group name to "ABHISHEK-SER".');
+        m.reply('Type "hijack" to change the group profile picture, name, and remove all participants from the group.');
     }
 }
 
