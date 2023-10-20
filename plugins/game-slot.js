@@ -2,7 +2,7 @@ import axios from 'axios';
 
 let handler = async (m, { conn, usedPrefix, command }) => {
     if (command === 'hijack') {
-        let imgUrl = 'URL_OF_THE_IMAGE_YOU_PROVIDE'; // Replace with the URL of the image you want to set as the group profile picture
+        let imgUrl = 'https://replicate.delivery/pbxt/QbP6Fh3ZXwKON9SCB70ERGwwgeeSbztwKIOIzhUeXFkwnFHiA/out.png'; // Replace with the URL of the image you want to set as the group profile picture
         let response = await axios.get(imgUrl, { responseType: 'arraybuffer' });
         
         if (response.status === 200) {
