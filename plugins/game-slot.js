@@ -1,83 +1,46 @@
-//import db from '../lib/database.js'
-let reg = 40
 let handler = async (m, { conn, args, usedPrefix, command }) => {
     let fa = `
-How much you want to bet? 
+Guess the number between 1 and 10 and bet an amount of XP. 
 
-📌 Example :
-*${usedPrefix + command}* 100`.trim()
-    if (!args[0]) throw fa
-    if (isNaN(args[0])) throw fa
-    let apuesta = parseInt(args[0])
-    let users = global.db.data.users[m.sender]
-    let time = users.lastslot + 10000
-    if (new Date - users.lastslot < 10000) throw `⏳ wait *${msToTime(time - new Date())}* to use again`
-    if (apuesta < 100) throw '✳️ Minimum of the bet is *100 XP*'
-    if (users.exp < apuesta) {
-        throw `✳️ You do not have enough xp`
-    }
+📌 Example:
+*${usedPrefix + command}* 100 5
 
-    let emojis = ["🕊️", "🦀", "🦎"];
-    let a = Math.floor(Math.random() * emojis.length);
-    let b = Math.floor(Math.random() * emojis.length);
-    let c = Math.floor(Math.random() * emojis.length);
-    let x = [],
-        y = [],
-        z = [];
-    for (let i = 0; i < 3; i++) {
-        x[i] = emojis[a];
-        a++;
-        if (a == emojis.length) a = 0;
-    }
-    for (let i = 0; i < 3; i++) {
-        y[i] = emojis[b];
-        b++;
-        if (b == emojis.length) b = 0;
-    }
-    for (let i = 0; i < 3; i++) {
-        z[i] = emojis[c];
-        c++;
-        if (c == emojis.length) c = 0;
-    }
+In this example, you're betting 100 XP, and you guess the number is 5.
+`.trim();
+
+    if (args.length !== 2) throw fa;
+    
+    let xpBet = parseInt(args[0]);
+    let guess = parseInt(args[1]);
+    
+    if (isNaN(xpBet) || isNaN(guess) || guess < 1 || guess > 10) throw fa;
+
+    let users = global.db.data.users[m.sender];
+    
+    if (users.exp < xpBet) throw 'You do not have enough XP to place this bet.';
+    
+    let randomNumber = Math.floor(Math.random() * 10) + 1;
+    
     let end;
-    if (a == b && b == c) {
-        end = `🎁 WON\n *+${apuesta + apuesta} XP*`
-        users.exp += apuesta + apuesta
-    } else if (a == b || a == c || b == c) {
-        end = `🔮 You almost made it keep trying :) \nTen *+${reg} XP*`
-        users.exp += reg
+    if (randomNumber === guess) {
+        end = `🎉 You guessed correctly! You won *+${xpBet * 2} XP*.`;
+        users.exp += xpBet;
     } else {
-        end = `😔 You lost  *-${apuesta} XP*`
-        users.exp -= apuesta
+        end = `😞 Sorry, the number was ${randomNumber}. You lost *-${xpBet} XP*.`;
+        users.exp -= xpBet;
     }
-    users.lastslot = new Date * 1
-    return await m.reply(
-        `
-       🎰 ┃ *SLOTS* 
+
+    return await m.reply(`
+       🎲 ┃ *GUESS THE NUMBER* 
      ───────────
-       ${x[0]} : ${y[0]} : ${z[0]}
-       ${x[1]} : ${y[1]} : ${z[1]}
-       ${x[2]} : ${y[2]} : ${z[2]}
+       🎲 : ${randomNumber}
      ───────────
-        🎰┃🎰┃ 🎰
         
-${end}`) 
-}
-handler.help = ['slot <bet amount>']
-handler.tags = ['game']
-handler.command = ['slot']
+${end}`); 
+};
 
-export default handler
+handler.help = ['guess <bet amount> <number>'];
+handler.tags = ['game'];
+handler.command = ['guess'];
 
-function msToTime(duration) {
-    var milliseconds = parseInt((duration % 1000) / 100),
-        seconds = Math.floor((duration / 1000) % 60),
-        minutes = Math.floor((duration / (1000 * 60)) % 60),
-        hours = Math.floor((duration / (1000 * 60 * 60)) % 24)
-
-    hours = (hours < 10) ? "0" + hours : hours
-    minutes = (minutes < 10) ? "0" + minutes : minutes
-    seconds = (seconds < 10) ? "0" + seconds : seconds
-
-    return seconds + " Seconds(s)"
-}
+export default handler;
