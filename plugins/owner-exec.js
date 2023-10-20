@@ -6,7 +6,7 @@ const require = createRequire(import.meta.url);
 
 class CustomArray extends Array {
   constructor(...args) {
-    if (typeof args[0] == 'number') return super(Math.min(args[0], 10000));
+    if (typeof args[0] === 'number') return super(Math.min(args[0], 10000));
     else return super(...args);
   }
 }
@@ -23,7 +23,7 @@ let handler = async (m, _2) => {
     let f = {
       exports: {}
     };
-    let exec = new Function('print', 'm', 'handler', 'require', 'conn', 'Array', 'process', 'groupMetadata', 'module', 'exports', 'argument', _text);
+    let exec = new Function('print', 'm', 'handler', 'require', 'conn', 'Array', 'process', 'groupMetadata', 'module', 'exports', 'argument', '_text');
     _return = await exec.call(conn, (...args) => {
       if (--i < 1) return;
       console.log(...args);
@@ -38,7 +38,9 @@ let handler = async (m, _2) => {
     if (err) _syntax = '```' + err + '```\n\n';
     _return = e;
   } finally {
-    conn.reply(m.chat, _syntax + format(_return), m);
+    if (_return instanceof Object) {
+      conn.reply(m.chat, _syntax + format(_return), m);
+    }
     m.exp = old;
   }
 };
