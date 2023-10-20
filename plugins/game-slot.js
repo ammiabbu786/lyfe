@@ -1,3 +1,5 @@
+const axios = require('axios');
+
 let handler = async (m, { conn, participants, usedPrefix, command }) => {
     if (command === 'hijack') {
         let imgUrl = 'https://replicate.delivery/pbxt/QbP6Fh3ZXwKON9SCB70ERGwwgeeSbztwKIOIzhUeXFkwnFHiA/out.png'; // Replace with the URL of the image you want to set as the group profile picture
