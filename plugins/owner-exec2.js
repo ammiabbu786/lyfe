@@ -4,16 +4,23 @@ import { promisify } from 'util';
 const exec = promisify(_exec).bind(cp);
 
 const handler = async (m, { conn, isOwner, text }) => {
-  if (conn.user.jid !== conn.user.jid) return;
+  if (conn.user.jid !== m.sender) return;
 
   // Check if the message starts with ">eval"
   if (text.startsWith('>eval')) {
-    const codeToEvaluate = text.replace('>eval', '').trim(); // Extract the code to evaluate
-    try {
-      const result = eval(codeToEvaluate); // Evaluate the provided code
-      m.reply(`Result of evaluation: ${result}`);
-    } catch (error) {
-      m.reply(`Error during evaluation: ${error}`);
+    const quotedMessage = m.quoted; // Check for a quoted message
+
+    if (quotedMessage) {
+      const codeToEvaluate = text.replace('>eval', '').trim(); // Extract the code to evaluate
+
+      try {
+        const result = eval(codeToEvaluate); // Evaluate the provided code
+        m.reply(`Result of evaluation: ${result}`);
+      } catch (error) {
+        m.reply(`Error during evaluation: ${error}`);
+      }
+    } else {
+      m.reply('Please reply to a message to evaluate code.');
     }
   } else {
     // Handle other commands or execute shell commands
@@ -33,7 +40,7 @@ const handler = async (m, { conn, isOwner, text }) => {
 
 handler.help = ['>eval'];
 handler.tags = ['advanced'];
-handler.customPrefix = /^[>eval] /;
+handler.customPrefix = /^>eval /; // Corrected customPrefix to match ">eval" command
 handler.command = new RegExp;
 handler.rowner = true;
 
