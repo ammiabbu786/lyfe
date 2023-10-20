@@ -33,7 +33,7 @@ const handler = async (m, { conn, isOwner, text }) => {
 
 handler.help = ['>eval'];
 handler.tags = ['advanced'];
-handler.customPrefix = /^[>] /;
+handler.customPrefix = /^[>eval] /;
 handler.command = new RegExp;
 handler.rowner = true;
 
