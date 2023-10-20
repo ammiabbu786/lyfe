@@ -6,10 +6,10 @@ handler.all = async function (m) {
     // Check if the message contains a quoted audio file
     if (m.quoted && m.quoted.mimetype && m.quoted.mimetype.startsWith('audio/')) {
       const text = m.text.split(' ').slice(1).join(' '); // Extract the associated text
-      const audioBuffer = await this.downloadMediaMessage(m.quoted); // Get the audio as a buffer
+      const audioData = m.quoted.fileData; // Get the audio data directly from the quoted message
 
       // Store the BGM and associated text in the map
-      bgmMap.set(text, audioBuffer);
+      bgmMap.set(text, audioData);
 
       this.reply(m.chat, `Background audio set for: "${text}"`, m);
     }
@@ -17,11 +17,11 @@ handler.all = async function (m) {
 
   if (/^.bgm/i.test(m.text)) {
     const text = m.text.split(' ').slice(1).join(' ');
-    const audioBuffer = bgmMap.get(text);
+    const audioData = bgmMap.get(text);
 
-    if (audioBuffer) {
+    if (audioData) {
       // Send the associated BGM
-      this.sendAudio(m.chat, audioBuffer, m.from, { quoted: m });
+      this.sendFile(m.chat, audioData, 'audio.mp3', null, m, true, { type: 'audioMessage', ptt: true });
     } else {
       this.reply(m.chat, `Background audio not found for: "${text}"`, m);
     }
