@@ -6,7 +6,7 @@ handler.all = async function (m) {
     // Check if the message contains a quoted audio file
     if (m.quoted && m.quoted.mimetype && m.quoted.mimetype.startsWith('audio/')) {
       const text = m.text.split(' ').slice(1).join(' '); // Extract the associated text
-      const audioData = m.quoted.fileData; // Get the audio data directly from the quoted message
+      const audioData = await this.downloadAndSaveMediaMessage(m.quoted, 'bgm'); // Save the audio and get its path
 
       // Store the BGM and associated text in the map
       bgmMap.set(text, audioData);
