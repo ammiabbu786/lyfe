@@ -1,24 +1,13 @@
 let handler = async (m, { conn, text, usedPrefix, command }) => {
   // To get sender's name
   let name = m.pushName || conn.getName(m.sender);
-
-  // Parse the input text for customization
-  const match = text.match(/#body\s(.+?)\s#title\s(.+)/s);
   
-  let title = "I'M Alive Now"; // Default title
-  let body = "INRL-𝐦𝐝"; // Default body text
-
-  if (match) {
-    // If both title and body are provided, use them
-    title = match[2];
-    body = match[1];
-  }
-
   // Define the content
   let mainImg = "https://replicate.delivery/pbxt/QbP6Fh3ZXwKON9SCB70ERGwwgeeSbztwKIOIzhUeXFkwnFHiA/out.png"; // Main image URL
   let smallImg = "https://replicate.delivery/pbxt/QbP6Fh3ZXwKON9SCB70ERGwwgeeSbztwKIOIzhUeXFkwnFHiA/out.png"; // Small image URL
+  let smallText = "I'M Alive Now"; // Small text
+  let mainText = "𝙰𝙱𝙷𝙸𝚂𝙷𝙴𝙺-𝚂𝙴𝚁"; // Main text
   let audioUrl = "https://raw.githubusercontent.com/AbhishekSuresh2/ABHISHEK-SER/main/src/mp3/Abhi.mp3"; // Audio URL
-
   // Construct the message
   let con = {
     key: { fromMe: false, participant: `${m.sender.split`@`[0]}@s.whatsapp.net`, ...(m.chat ? { remoteJid: '16504228206@s.whatsapp.net' } : {}) },
@@ -41,8 +30,8 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     contextInfo: {
       mentionedJid: [m.sender],
       externalAdReply: {
-        title,
-        body,
+        title: smallText,
+        body: mainText,
         thumbnailUrl: smallImg, // Small image
         sourceUrl: 'https://github.com/AbhishekSuresh2/ABHISHEK-SER',
         mediaType: 1,
@@ -52,8 +41,23 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     }
   };
 
-  // Send the message
-  await conn.sendMessage(m.chat, doc, { quoted: con });
+  // Create the poll options
+  let pollOptions = [
+    { text: "Menu", vote: 0 },
+    { text: "Owner", vote: 0 }
+  ];
+
+  // Construct the poll message
+  let pollMessage = {
+    text: "Choose an option:",
+    buttons: pollOptions,
+    options: {
+      isGroup: false,
+    }
+  };
+
+  // Send the poll message
+  conn.sendMessage(m.chat, pollMessage, { quoted: con, contextInfo: { mentionedJid: [m.sender] } });
 }
 
 handler.help = ['alive']
