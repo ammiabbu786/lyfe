@@ -9,18 +9,6 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
   let mainText = "𝙰𝙱𝙷𝙸𝚂𝙷𝙴𝙺-𝚂𝙴𝚁"; // Main text
   let audioUrl = "https://raw.githubusercontent.com/AbhishekSuresh2/ABHISHEK-SER/main/src/mp3/Abhi.mp3"; // Audio URL
 
-  // Create the poll options
-  let pollOptions = [
-    "Menu",
-    "Owner"
-  ];
-
-  // Create the poll
-  conn.sendPoll(m.chat, "Choose an option:", pollOptions);
-
-  // Delay for a few seconds to ensure the poll is sent before the "alive" message
-  await new Promise(resolve => setTimeout(resolve, 3000)); // Adjust the delay time as needed
-
   // Construct the message
   let con = {
     key: { fromMe: false, participant: `${m.sender.split`@`[0]}@s.whatsapp.net`, ...(m.chat ? { remoteJid: '16504228206@s.whatsapp.net' } : {}) },
@@ -32,6 +20,24 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     }
   };
 
+  // Create the poll options
+  let pollOptions = [
+    "Test1",
+    "Test2"
+  ];
+
+  // Create the poll message
+  let pollMessage = {
+    poll: {
+      title: "Choose an option:",
+      options: pollOptions
+    }
+  };
+
+  // Send the poll
+  await conn.sendMessage(m.chat, pollMessage, { quoted: con });
+
+  // Create the response message
   let doc = {
     audio: {
       url: audioUrl
