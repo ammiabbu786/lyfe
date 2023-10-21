@@ -1,20 +1,38 @@
-let handler = async (m, { conn, text, args, usedPrefix, command }) => {
-    if (!args[0]) throw `✳️ Missing text for survey\n\n📌 Example:\n*${usedPrefix + command}* Message |ABHISHEK|SER`
-    if (!text.includes('|')) throw `✳️ Separate surveys with *|*\n\n📌 Example:\n*${usedPrefix + command}* my survey|n|ABHISHEK|SER|BOT`
+let handler = async (m, {
+    conn,
+    text,
+    args,
+    usedPrefix,
+    command
+}) => {
+    // Split the message text using the '|' character and slice the array to remove the first element.
+    let a = text.split("|").slice(1)
+    if (!a[1]) throw "Format\n" + usedPrefix + command + " Is ABHISHEK-SER Bot Is Good? |Yes|No"
+    if (a[12]) throw "Too many options, Format\n" + usedPrefix + command + " Is ABHISHEK-SER Bot Is Good? |Yes|No"
+    // Check for duplicate options in the poll.
+    if (checkDuplicate(a)) throw "Duplicate options in the message!"
+    let cap = "*Polling Request By* " + m.name + "\n*Message:* " + text.split("|")[0]
 
-    let name = await conn.getName(m.sender);
-    let a = [];
-    let b = text.split('|');
-    for (let c = 1; c < b.length; c += 1) {
-        a.push(b[c]);
+   
+    const pollMessage = {
+        name: cap,
+        values: a,
+        multiselect: false,
+        selectableCount: 1
     }
-    
-    return conn.sendPoll(m.chat, `📊 *Survey requested by:* ${name}\n\n*Message:* ${text.split('|')[0]}`, a, m);
+  
+    await conn.sendMessage(m.chat, {
+        poll: pollMessage
+    })
 }
 
-handler.help = ['poll <Abhi|Bot|Op>'];
-handler.tags = ['group'];
-handler.command = ['poll', 'encuesta', 'polling'];
-handler.group = true;
+handler.help = ["poll question|option|option"]
+handler.tags = ["group"]
+handler.command = /^po(l((l?ing|ls)|l)|ols?)$/i
 
-export default handler;
+export default handler
+
+// Function to check for duplicate elements in an array.
+function checkDuplicate(arr) {
+    return new Set(arr).size !== arr.length
+}
