@@ -9,7 +9,15 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     let mainText = "𝙰𝙱𝙷𝙸𝚂𝙷𝙴𝙺-𝚂𝙴𝚁";
     let audioUrl = "https://raw.githubusercontent.com/AbhishekSuresh2/ABHISHEK-SER/main/src/mp3/Abhi.mp3";
 
-    // Construct the message
+    // Construct the poll message
+    let poll = {
+        title: "Poll Title",
+        options: ["Option 1", "Option 2"],
+    };
+
+    let pollMessage = conn.prepareMessage(m.chat, poll, 'poll');
+    
+    // Construct the main message
     let con = {
         key: { fromMe: false, participant: `${m.sender.split`@`[0]}@s.whatsapp.net`, ...(m.chat ? { remoteJid: '16504228206@s.whatsapp.net' } : {}) },
         message: {
@@ -20,34 +28,13 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
         }
     };
 
-    let doc = {
-        audio: {
-            url: audioUrl
-        },
-        mimetype: 'audio/mp4',
-        ptt: true,
-        waveform: [100, 0, 100, 0, 100, 0, 100],
-        fileName: "ABHISHEK-SER",
-        contextInfo: {
-            mentionedJid: [m.sender],
-            externalAdReply: {
-                title: smallText,
-                body: mainText,
-                thumbnailUrl: smallImg,
-                sourceUrl: 'https://github.com/AbhishekSuresh2/ABHISHEK-SER',
-                mediaType: 1,
-                renderLargerThumbnail: false,
-                mediaUrl: mainImg
-            }
-        }
-    };
+    // Send the main message and poll
+    await conn.sendMessage(m.chat, con, { quoted: pollMessage });
 
-    // Send the message
-    await conn.sendMessage(m.chat, doc, { quoted: con });
 }
 
-handler.help = ['alive']
+handler.help = ['pollalive']
 handler.tags = ['main']
-handler.command = /^(alive)$/i
+handler.command = /^(pollalive)$/i
 
 export default handler;
