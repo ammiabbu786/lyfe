@@ -32,7 +32,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
   };
 
   // Send the poll
-  await conn.sendMessage(m.chat, pollMessage, MessageType.poll, { quoted: con });
+  await conn.sendMessage(m.chat, pollMessage, sendMessage.poll, { quoted: con });
 
   // Create the response message
   let doc = {
@@ -58,7 +58,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
   };
 
   // Send the "alive" message
-  await conn.sendMessage(m.chat, doc, MessageType.text, { quoted: con });
+  await conn.sendMessage(m.chat, doc, sendMessage.text, { quoted: con });
 
 }
 
