@@ -1,30 +1,32 @@
-let pendingAlive = false;
+let awaitingReply = {};
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
     if (text.toLowerCase() === 'alive') {
-        // Set the flag to indicate that an "alive" message is pending a response
-        pendingAlive = true;
+        // Save the message ID to identify the response later
+        awaitingReply[m.id] = m;
 
-        // Send a text message as a reply to "alive"
-        await conn.sendMessage(m.chat, 'Hi, I am alive now. Please participate in the poll. Reply with "1" for .ping or "2" for .menu.', m);
+        // Send the initial message with options
+        await conn.sendMessage(m.chat, 'Hi, I am alive now. Please participate in the poll.\n\nReply with "1" for .ping or "2" for .menu.', m);
     }
 }
 
-// Listen for replies
 conn.on('message-new', async (message) => {
-    if (pendingAlive && message.message && message.message.text) {
-        const replyText = message.message.text;
-
-        if (replyText === '1') {
+    if (awaitingReply[message.reply_id]) {
+        const m = awaitingReply[message.reply_id];
+        delete awaitingReply[message.reply_id];
+        if (message.text === '1') {
             // Execute .ping command
-            await conn.sendMessage(message.key.remoteJid, `${usedPrefix}ping`, message.key.id);
-        } else if (replyText === '2') {
+            conn.emit('message', {
+                ...m,
+                text: `${usedPrefix}ping`
+            });
+        } else if (message.text === '2') {
             // Execute .menu command
-            await conn.sendMessage(message.key.remoteJid, `${usedPrefix}menu`, message.key.id);
+            conn.emit('message', {
+                ...m,
+                text: `${usedPrefix}menu`
+            });
         }
-
-        // Reset the flag
-        pendingAlive = false;
     }
 });
 
