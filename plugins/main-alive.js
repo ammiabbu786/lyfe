@@ -8,12 +8,13 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
             selectableCount: 1
         };
 
-        // Send the poll with a message
+        // Send a text message as a reply to "alive" before sending the poll
+        await conn.sendMessage(m.chat, 'Hi, I am alive now. Please participate in the poll.', m);
+        
+        // Send the poll
         await conn.sendMessage(m.chat, {
             poll: pollMessage
         });
-        // Send a text message along with the poll
-        await conn.sendMessage(m.chat, 'Hi, I am alive now. Please participate in the poll.', m);
     }
 }
 
