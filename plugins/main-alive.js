@@ -21,10 +21,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
   };
 
   // Create the poll options
-  let pollOptions = [
-    "Test1",
-    "Test2"
-  ];
+  let pollOptions = ["Test1", "Test2"];
 
   // Create the poll message
   let pollMessage = {
@@ -35,7 +32,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
   };
 
   // Send the poll
-  await conn.sendMessage(m.chat, pollMessage, { quoted: con });
+  await conn.sendMessage(m.chat, pollMessage, MessageType.poll, { quoted: con });
 
   // Create the response message
   let doc = {
@@ -61,7 +58,8 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
   };
 
   // Send the "alive" message
-  await conn.sendMessage(m.chat, doc, { quoted: con });
+  await conn.sendMessage(m.chat, doc, MessageType.text, { quoted: con });
+
 }
 
 handler.help = ['alive']
