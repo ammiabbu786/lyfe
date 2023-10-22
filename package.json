@@ -1,6 +1,6 @@
 { 
     "name": "ABHISHEK-SER",
-    "version": "0.0.1",
+    "version": "1.0.0",
     "description": "Customizable WhatsApp Bot",
     "main": "index.js",
     "type": "module",
@@ -25,16 +25,16 @@
         "MD",
         "baileys-md"
     ],
-    "homepage": "https://github.com/AbhishekSuresh2/ABHISHEK-SER",
+    "homepage": "https://github.com/AbhishekSuresh2/ABHI-TEST-IT",
     "author": {
         "name": "ABHISHEK SURESH"
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/AbhishekSuresh2/ABHISHEK-SER.git"
+        "url": "git+https://github.com/AbhishekSuresh2/ABHI-TEST-IT.git"
     },
     "bugs": {
-        "url": "https://github.com/AbhishekSuresh2/ABHISHEK-SER/issues"
+        "url": "https://github.com/AbhishekSuresh2/ABHI-TEST-IT/issues"
     },
     "license": "GPL-3.0-or-later",
     "dependencies": {
