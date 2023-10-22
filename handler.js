@@ -386,11 +386,11 @@ export async function handler(chatUpdate) {
                 else
                     m.exp += xp
                     if (!isPrems && plugin.credit && global.db.data.users[m.sender].credit < plugin.credit * 1) {
-                        this.reply(m.chat, `❌ You don't have enough gold`, m)
+                        this.reply(m.chat, `🟥 You don't have enough gold`, m)
                         continue // Gold finished
                     }
                     if (plugin.level > _user.level) {
-                        this.reply(m.chat, `❌ Level required ${plugin.level} to use this command. \nYour level ${_user.level}`, m)
+                        this.reply(m.chat, `🟥 Level required ${plugin.level} to use this command. \nYour level ${_user.level}`, m)
                         continue // If the level has not been reached
                     }
                 let extra = {
@@ -824,18 +824,26 @@ global.dfail = (type, m, conn) => {
     }
 
     const msg = {
-        owner: `This Command Can Only Be Used By The *Bot Owner*`,
-        moderator: `This Command Can Only Be Used By The *Moderators*`,
-        premium: `This Command Can Only Be Used By The *Premium Members*!`,
-        group: `This Command Can Only Be Used In *Groups*`,
-        private: `This Command Can Only Be Used In *Private Chats*`,
-        admin: `This Command Can Only Be Used By The *Group Admins*`,
-        botAdmin: `Make Me *Admin* To Use This Command`,
+        owner: `*${emoji.owner} Owner's Query*\n
+    ${userTag} This command can only be used by the *Bot Owner*!`,
+        moderator: `*${emoji.moderator} Moderator's Query*\n
+    ${userTag} This command can only be used by *Moderators*!`,
+        premium: `*${emoji.premium} Premium Query*\n
+    ${userTag} This command is only for *Premium Members*!`,
+        group: `*${emoji.group} Group Query*\n
+    ${userTag} This command can only be used in *Group Chats*!`,
+        private: `*${emoji.private} Private Query*\n
+    ${userTag} This command can only be used in *Private Chats*!`,
+        admin: `*${emoji.admin} Admin's Query*\n
+    ${userTag} This command is only for *Group Admins*!`,
+        botAdmin: `*${emoji.botAdmin} Bot Admin's Query*\n
+    ${userTag} Make the bot an *Admin* to use this command!`,
         unreg: `*${emoji.unreg} Registration Query*\n
     ${userTag} Please register to use this feature by typing:\n\n*#register name.age*\n\nExample: *#register ${m.name}.18*!`,
-        nsfw: `*NSFW* Is Not Enabled In This Group Enable It By Typing .on nsfw`,
+        nsfw: `*${emoji.nsfw} NSFW Query*\n
+    ${userTag} NSFW is not active. Please contact the Group admin to enable this feature!`,
         restrict: `*${emoji.restrict} Inactive Feature Query*\n
-    ${userTag} This Feature Is *Disabled* In This Group`,
+    ${userTag} This feature is *disabled*!`,
     }
      [type]
     if (msg) return  m.reply(msg)
