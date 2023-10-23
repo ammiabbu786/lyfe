@@ -824,25 +824,17 @@ global.dfail = (type, m, conn) => {
     }
 
     const msg = {
-        owner: `*${emoji.owner} Owner's Query*\n
-    ${userTag} This command can only be used by the *Bot Owner*!`,
-        moderator: `*${emoji.moderator} Moderator's Query*\n
-    ${userTag} This command can only be used by *Moderators*!`,
-        premium: `*${emoji.premium} Premium Query*\n
-    ${userTag} This command is only for *Premium Members*!`,
-        group: `This Command Is Only For *Groups*`,
-        private: `*${emoji.private} Private Query*\n
-    ${userTag} This command can only be used in *Private Chats*!`,
-        admin: `*${emoji.admin} Admin's Query*\n
-    ${userTag} This command is only for *Group Admins*!`,
-        botAdmin: `*${emoji.botAdmin} Bot Admin's Query*\n
-    ${userTag} Make the bot an *Admin* to use this command!`,
+        owner: `This Command Is Only For *Bot Owner*!`,
+        moderator: `This Command Is Only For *Moderators*!`,
+        premium: `This Command Is Only For *Premium Members*!`,
+        group: `This Command Can Only Be Used In *Groups*`,
+        private: `This Command Can Only Be Used In *Private Chats*`,
+        admin: `This Command Is Only For *Group Admins*!`,
+        botAdmin: `Make Me *Admin* To Use This Command`,
         unreg: `*${emoji.unreg} Registration Query*\n
     ${userTag} Please register to use this feature by typing:\n\n*#register name.age*\n\nExample: *#register ${m.name}.18*!`,
-        nsfw: `*${emoji.nsfw} NSFW Query*\n
-    ${userTag} NSFW is not active. Please contact the Group admin to enable this feature!`,
-        restrict: `*${emoji.restrict} Inactive Feature Query*\n
-    ${userTag} This feature is *disabled*!`,
+        nsfw: `NSFW Is Not Active Type *on nsfw* To Turn On NSFW`,
+        restrict: `This Feature Is *Disabled*!`,
     }
      [type]
     if (msg) return  m.reply(msg)
