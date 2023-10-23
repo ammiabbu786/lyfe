@@ -824,13 +824,13 @@ global.dfail = (type, m, conn) => {
     }
 
     const msg = {
-        owner: `This Command Is Only For *BotOwner*`,
+        owner: `*${emoji.owner} Owner's Query*\n
+    ${userTag} This command can only be used by the *Bot Owner*!`,
         moderator: `*${emoji.moderator} Moderator's Query*\n
     ${userTag} This command can only be used by *Moderators*!`,
         premium: `*${emoji.premium} Premium Query*\n
     ${userTag} This command is only for *Premium Members*!`,
-        group: `*${emoji.group} Group Query*\n
-    ${userTag} This command can only be used in *Group Chats*!`,
+        group: `This Command Is Only For *Groups*`,
         private: `*${emoji.private} Private Query*\n
     ${userTag} This command can only be used in *Private Chats*!`,
         admin: `*${emoji.admin} Admin's Query*\n
