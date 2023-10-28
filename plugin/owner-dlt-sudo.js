@@ -2,22 +2,19 @@ import { exec } from 'child_process';
 import speed from 'performance-now';
 
 let handler = async (m, { conn }) => {
-  let heartMsg = await conn.sendMessage(m.chat, { text: '(\\_/)\n( •.•)\n/>💝' });
+  let heartMsg = await conn.sendMessage(m.chat, { text: '*Loading...*' });
 
-  let emojis = [
-    '(\\_/)\n( •.•)\n/>❤️‍🩹',
-    '(\\_/)\n( •.•)\n/>🤍',
-    '(\\_/)\n( •.•)\n/>🩷',
-    '(\\_/)\n( •.•)\n/>❤️',
-    '(\\_/)\n( •.•)\n/>💙',
-    '(\\_/)\n( •.•)\n/>🩵',
-    '(\\_/)\n( •.•)\n/>💚',
-    '(\\_/)\n( •.•)\n/>💜',
-    '(\\_/)\n( •.•)\n/>🧡',
-    '(\\_/)\n( •.•)\n/>💗',
-    '(\\_/)\n( •.•)\n/>💖',
-  ];
-
+  let emojis = ["(\\_/)\n( •.•)\n/>❤️‍🩹",
+    "(\\_/)\n( •.•)\n/>🤍",
+    "(\\_/)\n( •.•)\n/>🩷",
+    "(\\_/)\n( •.•)\n/>❤️",
+    "(\\_/)\n( •.•)\n/>💙",
+    "(\\_/)\n( •.•)\n/>🩵",
+    "(\\_/)\n( •.•)\n/>💚",
+    "(\\_/)\n( •.•)\n/>💜",
+    "(\\_/)\n( •.•)\n/>🧡",
+    "(\\_/)\n( •.•)\n/>💗",
+    "(\\_/)\n( •.•)\n/>💖' "_Made By ©ABHISHEK-SER_"];
   let delay = 1000; // Delay in milliseconds between editing emojis
 
   let timestamp = speed();
@@ -45,6 +42,6 @@ let handler = async (m, { conn }) => {
 
 handler.help = ['hearts'];
 handler.tags = ['fun'];
-handler.command = ['teddy', 'teddy'];
+handler.command = ['test', 'test'];
 
 export default handler;
