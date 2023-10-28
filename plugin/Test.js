@@ -1,65 +1,49 @@
-let handler = async (m, { conn, text, usedPrefix, command }) => {
-  if (text === 'alive') {
-    // Define the content
-    let mainImg = "https://cdn.wallpapersafari.com/71/19/7ZfcpT.png"; // Main image URL
-    let smallImg = "https://cdn.wallpapersafari.com/71/19/7ZfcpT_small.png"; // Small image URL
-    let smallText = "ABHISHEK-SER"; // Small text
-    let mainText = "I'm Alive"; // Main text
-    let audioUrl = "https://raw.githubusercontent.com/Kai0071/A17/master/Assets/audio/🔥.mp3"; // Audio URL
+// Define the plugin constants
+export const pluginName = 'DALL·E Image Generator';
+export const pluginCommand = 'dalle'; // This should match the command in handler.command
 
-    // Create a poll
-    const poll = {
-      name: 'Choose an option',
-      options: ['test1', 'test2'],
-      selectableCount: 1, // Allow choosing only one option
-    };
+let handler = async (m, {
+    conn,
+    text,
+    args,
+    usedPrefix,
+    command
+}) => {
+    if (text.toLowerCase() === 'inrl') {
+        let result = "This is an example of a poll command. You can create a poll by following this format:\n\n" +
+            `${usedPrefix}${command} Is ABHISHEK-SER Bot Good? |Yes|No\n\n` +
+            "You can add more options by separating them with a '|'. Remember, the format is important to create a poll.";
 
-    // Construct the message
-    let con = {
-      key: {
-        fromMe: false,
-        participant: `${m.sender.split`@`[0]}@s.whatsapp.net`,
-        ...(m.chat ? { remoteJid: '16504228206@s.whatsapp.net' } : {}),
-      },
-      message: {
-        contactMessage: {
-          displayName: "Your Name", // Replace with the desired display name
-          vcard: `BEGIN:VCARD\nVERSION:3.0\nN:;a,;;;\nFN:Your Name\nitem1.TEL;waid=${m.sender.split('@')[0]}:${m.sender.split('@')[0]}\nitem1.X-ABLabel:Ponsel\nEND:VCARD`,
-        },
-      },
-    };
-
-    let doc = {
-      audio: {
-        url: audioUrl,
-      },
-      mimetype: 'audio/mp4',
-      ptt: true,
-      waveform: [100, 0, 100, 0, 100, 0, 100],
-      fileName: "Guru",
-      poll: poll, // Add the poll to the message
-
-      contextInfo: {
-        mentionedJid: [m.sender],
-        externalAdReply: {
-          title: smallText,
-          body: mainText,
-          thumbnailUrl: smallImg, // Small image
-          sourceUrl: 'https://chat.whatsapp.com/F3sB3pR3tClBvVmlIkqDJp',
-          mediaType: 1,
-          renderLargerThumbnail: true,
-          mediaUrl: mainImg, // Main image
-        },
-      },
-    };
-
-    // Send the message with the poll
-    await conn.sendMessage(m.chat, doc, { quoted: con });
-  }
+        // Send the poll creation command and result as a reply.
+        await conn.sendMessage(m.chat, result, m, {
+            quoted: m
+        });
+    }
+    else if (text.toLowerCase() === 'inrl poll') {
+        // Create a sample poll for demonstration.
+        let cap = "*Polling Request By* " + m.name + "\n*Message:* Is ABHISHEK-SER Bot Good?"
+        const pollMessage = {
+            name: cap,
+            values: ["Yes", "No"],
+            multiselect: false,
+            selectableCount: 1
+        }
+      
+        // Send the sample poll.
+        await conn.sendMessage(m.chat, {
+            poll: pollMessage
+        });
+    }
 }
 
-handler.help = ['inrl'];
-handler.tags = ['main'];
-handler.command = /^(inrl)$/i;
+handler.help = ["inrl", "inrl poll"];
+handler.tags = ["group"];
+handler.command = /^inrl$/i;
 
+export default handler;
+
+
+handler.help = [pluginCommand]; // Use the defined pluginCommand
+handler.tags = ['AI'];
+handler.command = [pluginCommand]; // Use the defined pluginCommand
 export default handler;
