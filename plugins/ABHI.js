@@ -16,8 +16,7 @@ const installPlugin = (conn, text, isOwner, m) => {
 
   if (text.includes('gist.github.com')) {
     if (installationInProgress) {
-      conn.reply(m.chat, '*Installation is already in progress. Please wait...*', m);
-      return;
+      return conn.reply(m.chat, '*Installation is already in progress. Please wait...*', m);
     }
 
     installationInProgress = true;
