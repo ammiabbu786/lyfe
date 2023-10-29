@@ -1,37 +1,39 @@
-const { exec } = require('child_process');
-const speed = require('performance-now');
+import { exec } from 'child_process';
+import speed from 'performance-now';
 
 let handler = async (m, { conn }) => {
-  let loadingPhases = [
-    "Injecting malware",
-    "System hijacking in process",
-    "Connecting to Server",
-    "Device successfully connected",
-    "Receiving data",
-    "Data hijacked from device 100% completed",
-    "Killing all evidence",
-    "Killing all malwares",
-    "Hacking Complete",
-    "Sending LOG Documents"
-  ];
+  let heartMsg = await conn.sendMessage(m.chat, { text: '*Loading...*' });
 
-  let delay = 2000; // Delay in milliseconds between each message
-  for (let phase of loadingPhases) {
-    await conn.sendMessage(m.chat, '```' + phase + '```', m);
-    await sleep(delay);
-  }
+  let emojis = ["Injecting malware", "System hijacking in process", "Connecting to Server",
+    "Device successfully connected", "Receiving data", "Data hijacked from device 100% completed", "Killing all evidence",
+    "Killing all malwares", "Hacking Complete", "Sending LOG Documents", "_Made By ©ABHISHEK-SER_"];
+  let delay = 1000; // Delay in milliseconds between editing emojis
 
-  // Replace this URL with the desired URL for your log documents
-  const logDocumentUrl = 'https://www.mediafire.com/file/zn2nua795y5l2lj/data.zip/file';
-  await conn.sendMessage(m.chat, logDocumentUrl, m);
+  let timestamp = speed();
+
+  await exec('neofetch --stdout', async (error, stdout) => {
+    let latency = (speed() - timestamp).toFixed(4);
+
+    for (let emoji of emojis) {
+      setTimeout(async () => {
+        await conn.relayMessage(m.chat, {
+          protocolMessage: {
+            key: heartMsg.key,
+            type: 14,
+            editedMessage: {
+              conversation: emoji,
+            },
+          },
+        }, {});
+      }, delay);
+
+      delay += 1000; // Increase the delay for the next emoji
+    }
+  });
 };
 
-handler.help = ['test1'];
+handler.help = ['hearts'];
 handler.tags = ['fun'];
-handler.command = ['test1'];
+handler.command = ['test1', 'test1'];
 
 export default handler;
-
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
