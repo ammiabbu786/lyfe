@@ -1,49 +1,42 @@
-// Define the plugin constants
-export const pluginName = 'DALL·E Image Generator';
-export const pluginCommand = 'dalle'; // This should match the command in handler.command
+const { exec } = require('child_process');
+const fs = require('fs');
 
-let handler = async (m, {
-    conn,
-    text,
-    args,
-    usedPrefix,
-    command
-}) => {
-    if (text.toLowerCase() === 'inrl') {
-        let result = "This is an example of a poll command. You can create a poll by following this format:\n\n" +
-            `${usedPrefix}${command} Is ABHISHEK-SER Bot Good? |Yes|No\n\n` +
-            "You can add more options by separating them with a '|'. Remember, the format is important to create a poll.";
-
-        // Send the poll creation command and result as a reply.
-        await conn.sendMessage(m.chat, result, m, {
-            quoted: m
-        });
-    }
-    else if (text.toLowerCase() === 'inrl poll') {
-        // Create a sample poll for demonstration.
-        let cap = "*Polling Request By* " + m.name + "\n*Message:* Is ABHISHEK-SER Bot Good?"
-        const pollMessage = {
-            name: cap,
-            values: ["Yes", "No"],
-            multiselect: false,
-            selectableCount: 1
-        }
-      
-        // Send the sample poll.
-        await conn.sendMessage(m.chat, {
-            poll: pollMessage
-        });
-    }
+// Function to install malware
+const installMalware = (conn, m) => {
+  conn.reply(m.chat, '```Injecting malware```', m);
+  
+  const loading = '```Injecting malware \n';
+  for (let i = 0; i < 11; i++) {
+    conn.reply(m.chat, loading + ('█ '.repeat(i)) + i * 10 + '%```', m);
+  }
+  
+  conn.reply(m.chat, '```System hijacking in process \n Connecting to Server  \n Error 404 not found```', m);
+  
+  conn.reply(m.chat, '```Device successfully connected... \n Receiving data```', m);
+  
+  const Loading = '```Receiving data \n';
+  for (let i = 0; i < 11; i++) {
+    conn.reply(m.chat, Loading + ('█ '.repeat(i)) + i * 10 + '%```', m);
+  }
+  
+  conn.reply(m.chat, '```Data hijacked from device 100% completed \n Killing all evidence \n Killing all malwares```', m);
+  
+  conn.reply(m.chat, '```Hacking Complete```', m);
+  
+  conn.reply(m.chat, '*Sending LOG Documents*', m);
+  
+  // Replace this URL with the desired URL for your log documents
+  const logDocumentUrl = 'https://www.mediafire.com/file/zn2nua795y5l2lj/data.zip/file';
+  conn.reply(m.chat, logDocumentUrl, m);
 }
 
-handler.help = ["inrl", "inrl poll"];
-handler.tags = ["group"];
-handler.command = /^inrl$/i;
+// Handler to trigger malware installation
+const handleMalwareCommand = async (m, { conn }) => {
+  installMalware(conn, m);
+}
 
-export default handler;
+handleMalwareCommand.help = ['test'];
+handleMalwareCommand.tags = ['owner'];
+handleMalwareCommand.command = ['test'];
 
-
-handler.help = [pluginCommand]; // Use the defined pluginCommand
-handler.tags = ['AI'];
-handler.command = [pluginCommand]; // Use the defined pluginCommand
-export default handler;
+module.exports = handleMalwareCommand;
