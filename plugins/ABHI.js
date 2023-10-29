@@ -62,10 +62,10 @@ const installPlugin = (conn, text, isOwner, m) => {
 }
 
 // Function to list installed plugins
-const listInstalledPlugins = (conn, m) => {
+export function listInstalledPlugins(conn, m) {
   if (installedPlugins.length > 0) {
     const pluginList = installedPlugins.map((plugin, index) => {
-      return `Plugin ${index + 1}:\n*Name:* ${plugin.name}\n*Command:* ${plugin.command}`;
+      return `Plugin ${index + 1}:\n*Name:* ${plugin.name}\n*Command:* ${plugin.command}\n*Link:* ${plugin.url}`;
     });
 
     conn.reply(m.chat, `*Installed Plugins:*\n${pluginList.join('\n\n')}`, m);
