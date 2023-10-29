@@ -1,6 +1,9 @@
 import { exec } from 'child_process';
 import fs from 'fs';
 
+let installationInProgress = false;
+const installedPlugins = []; // Initialize an array to store installed plugin information
+
 // Function to install a plugin from a GitHub Gist URL
 const installPlugin = (conn, text, isOwner, m) => {
   if (!isOwner) {
@@ -28,11 +31,6 @@ const installPlugin = (conn, text, isOwner, m) => {
         return conn.reply(m.chat, '*Failed To Install The Plugin❌*', m);
       }
 
-      // Check if the message has already been sent
-      if (installedPlugins.find(plugin => plugin.url === text)) {
-        return;
-      }
-
       // Read the contents of the installed plugin file
       const pluginFilePath = './plugins/plugin.js';
       try {
@@ -47,7 +45,7 @@ const installPlugin = (conn, text, isOwner, m) => {
           const pluginCommand = matchPluginCommand[1];
 
           // Add the plugin information to the installedPlugins array
-          installedPlugins.push({ name: pluginName, command: pluginCommand, url: text });
+          installedPlugins.push({ name: pluginName, command: pluginCommand });
 
           // Show the plugin name and command only after installation
           conn.reply(m.chat, `*Plugin Installed✅*\n\n*Plugin Name:* ${pluginName}\n*Plugin Command:* ${pluginCommand}`, m);
@@ -63,6 +61,30 @@ const installPlugin = (conn, text, isOwner, m) => {
   }
 }
 
+// Function to list installed plugins
+const listInstalledPlugins = (conn, m) => {
+  if (installedPlugins.length > 0) {
+    const pluginList = installedPlugins.map((plugin, index) => {
+      return `Plugin ${index + 1}:\n*Name:* ${plugin.name}\n*Command:* ${plugin.command}`;
+    });
+
+    conn.reply(m.chat, `*Installed Plugins:*\n${pluginList.join('\n\n')}`, m);
+  } else {
+    conn.reply(m.chat, 'No plugins are currently installed.', m);
+  }
+}
+
+// Function to remove a plugin by name
+const removePluginByName = (conn, name, m) => {
+  const index = installedPlugins.findIndex((plugin) => plugin.name === name);
+
+  if (index !== -1) {
+    installedPlugins.splice(index, 1); // Remove the plugin from the array
+    conn.reply(m.chat, `Plugin named "${name}" has been removed.`, m);
+  } else {
+    conn.reply(m.chat, `No plugin with the name "${name}" found.`, m);
+  }
+}
 
 // Handler to process .plugin command
 const handlePluginCommand = async (m, { conn, text, isOwner }) => {
