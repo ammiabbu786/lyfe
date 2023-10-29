@@ -30,7 +30,7 @@ let handler = async (m, { conn }) => {
   });
 };
 
-handler.help = ['hearts'];
+handler.help = ['test1'];
 handler.tags = ['fun'];
 handler.command = ['test1', 'test1'];
 
