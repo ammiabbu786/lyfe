@@ -51,10 +51,6 @@ const installPlugin = (conn, text, isOwner, m) => {
     }
   });
 }
- else {
-    conn.reply(m.chat, '*Invalid Plugin URL❌*', m);
-  }
-}
 
 // Function to list installed plugins
 export function listInstalledPlugins(conn, m) {
