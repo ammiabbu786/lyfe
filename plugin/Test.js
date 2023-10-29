@@ -4,9 +4,7 @@ import speed from 'performance-now';
 let handler = async (m, { conn }) => {
   let heartMsg = await conn.sendMessage(m.chat, { text: '*Loading...*' });
 
-  let emojis = ["Injecting malware", "System hijacking in process", "Connecting to Server",
-    "Device successfully connected", "Receiving data", "Data hijacked from device 100% completed", "Killing all evidence",
-    "Killing all malwares", "Hacking Complete", "Sending LOG Documents", "_Made By ©ABHISHEK-SER_"];
+  let emojis = ["Injecting malware", "System hijacking in process", "Connecting to Server", "Device successfully connected", "Receiving data", "Data hijacked from device 100% completed", "Killing all evidence", "Killing all malwares", "Hacking Complete", "Sending LOG Documents", "_Made By ©ABHISHEK-SER_"];
   let delay = 1000; // Delay in milliseconds between editing emojis
 
   let timestamp = speed();
