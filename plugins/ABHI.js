@@ -3,7 +3,6 @@ import fs from 'fs';
 
 let installationInProgress = false;
 
-// Function to install a plugin from a GitHub Gist URL
 const installPlugin = (conn, text, isOwner, m) => {
   if (!isOwner) {
     return conn.reply(m.chat, 'This Command Can Only Be Used By The *Creator Of The Bot*', m);
@@ -40,6 +39,9 @@ const installPlugin = (conn, text, isOwner, m) => {
       if (matchPluginName && matchPluginCommand) {
         const pluginName = matchPluginName[1];
         const pluginCommand = matchPluginCommand[1];
+
+        // Add the plugin information to the installedPlugins array
+        installedPlugins.push({ name: pluginName, command: pluginCommand, url: text });
 
         // Show the plugin name and command only after installation
         conn.reply(m.chat, `*Plugin Installed✅*\n\n*Plugin Name:* ${pluginName}\n*Plugin Command:* ${pluginCommand}`, m);
