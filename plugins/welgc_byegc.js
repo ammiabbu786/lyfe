@@ -2,7 +2,7 @@ let handler = async (m, { conn, text, usedPrefix, command, customPrefix }) => {
   let stikerwelgc = "./src/welgc.webp";
   let stikerbyegc = "./src/byegc.webp";
 
-  if (command == 'test3') {
+  if (command == 'welcomegc') {
     conn.sendFile(m.chat, stikerwelgc, 'sticker.webp', null, m, false, {
       contextInfo: {
         externalAdReply: {
@@ -15,7 +15,7 @@ let handler = async (m, { conn, text, usedPrefix, command, customPrefix }) => {
     });
   }
 
-  if (command == 'test2') {
+  if (command == 'byegc') {
     conn.sendFile(m.chat, stikerbyegc, 'sticker.webp', null, m, false, {
       contextInfo: {
         externalAdReply: {
@@ -29,6 +29,12 @@ let handler = async (m, { conn, text, usedPrefix, command, customPrefix }) => {
   }
 };
 
-handler.command = ['test2', 'test3'];
+handler.command = ['welcomegc', 'byegc'];
 
 export default handler;
+
+// The pickRandom function is defined but not used in this code.
+// If you plan to use it, make sure to define the 'list' variable as well.
+function pickRandom(list) {
+  return list[Math.floor(list.length * Math.random())];
+}
