@@ -1,14 +1,5 @@
-let handler = async (m, {
-    conn,
-    text,
-    args,
-    usedPrefix,
-    command
-}) => {
-    // Check if the user wants to start a quiz game
-    if (command === 'quiz') {
-    // Define an array of quiz questions and answers
-    const quizQuestions = [
+// Define an array of quiz questions and answers
+const quizQuestions = [
     {
         question: "What is the capital of France?",
         correctAnswer: "Paris",
@@ -40,7 +31,7 @@ let handler = async (m, {
     if (command === 'quiz') {
         // Check if all questions have been used
         if (usedQuestions.length === quizQuestions.length) {
-            return conn.reply(m.chat, '📚 All quiz questions have been used. Start a new quiz session later.', m);
+            usedQuestions.length = 0; // Reset used questions when all questions have been used
         }
 
         // Randomly select an unused quiz question
