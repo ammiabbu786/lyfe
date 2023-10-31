@@ -7,8 +7,8 @@ let handler = async (m, {
 }) => {
     // Check if the user wants to start a quiz game
     if (command === 'quiz') {
-        // Define an array of quiz questions and answers
-const quizQuestions = [
+    // Define an array of quiz questions and answers
+    const quizQuestions = [
     {
         question: "What is the capital of France?",
         correctAnswer: "Paris",
