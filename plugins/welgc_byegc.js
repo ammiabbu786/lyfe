@@ -17,45 +17,62 @@ const quizQuestions = [
     // Add more quiz questions here
 ];
 
-const usedQuestions = [];
+// Shuffle the quiz questions array
+shuffleArray(quizQuestions);
+
+const usedQuestions = []; // To keep track of used questions
 
 let handler = async (m, {
     conn,
     text,
     args,
-    usedPrefix
+    usedPrefix,
+    command
 }) => {
-    if (text.toLowerCase() === 'quiz') {
+    // Check if the user wants to start a quiz game
+    if (command === 'quiz') {
+        // Check if all questions have been used
         if (usedQuestions.length === quizQuestions.length) {
-            usedQuestions.length = 0;
+            usedQuestions.length = 0; // Reset used questions when all questions have been used
         }
 
-        let randomIndex;
-        do {
-            randomIndex = Math.floor(Math.random() * quizQuestions.length);
-        } while (usedQuestions.includes(randomIndex));
+        // Select the next question from the shuffled array
+        const currentQuestion = quizQuestions[usedQuestions.length];
+        usedQuestions.push(usedQuestions.length);
 
-        usedQuestions.push(randomIndex);
-
-        const currentQuestion = quizQuestions[randomIndex];
         const quizQuestion = currentQuestion.question;
         const correctAnswer = currentQuestion.correctAnswer;
         const options = currentQuestion.options;
 
+        // Shuffle the options for randomness
         shuffleArray(options);
 
-        const quizMessage = `📚 Quiz Time!\n\n${quizQuestion}\n\nOptions:\n${options.map((opt, idx) => `${idx + 1}. ${opt}`).join("\n")}\n\nReply with the number of your answer.`;
+        // Create the poll message with the quiz question
+        const pollMessage = {
+            name: `📚 Quiz Time!`,
+            question: quizQuestion,
+            values: [correctAnswer, ...options],
+            multiselect: false,
+            selectableCount: 1
+        }
 
-        conn.sendMessage(m.chat, quizMessage, m);
+        // Send the quiz poll to the chat
+        await conn.sendMessage(m.chat, {
+            poll: pollMessage
+        });
+    } else {
+        // Handle other commands or messages here
+        return conn.reply(m.chat, '❓ Invalid command. Use *"quiz"* to start a quiz game.', m);
     }
 }
 
 handler.help = ["quiz"]
 handler.tags = ["group"]
-handler.command = /^quiz$/i
+handler.command = /^(quiz)$/i
 
 export default handler;
 
+// Function to shuffle an array randomly
 function shuffleArray(arr) {
     for (let i = arr.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
