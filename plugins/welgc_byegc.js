@@ -13,12 +13,9 @@ const quizQuestions = [
         question: "Who wrote the play 'Romeo and Juliet'?",
         correctAnswer: "William Shakespeare",
         options: ["William Shakespeare", "Charles Dickens", "Jane Austen", "Leo Tolstoy"]
-    },
+    }
     // Add more quiz questions here
 ];
-
-// Shuffle the quiz questions array
-shuffleArray(quizQuestions);
 
 const usedQuestions = []; // To keep track of used questions
 
@@ -44,33 +41,33 @@ let handler = async (m, {
         const correctAnswer = currentQuestion.correctAnswer;
         const options = currentQuestion.options;
 
-        // Display the question and options as text messages
-        let quizMessage = `📚 Quiz Time!\n\n${quizQuestion}\n\n`;
+        // Display the question and options as a single message
+        let quizMessage = `📚 Quiz Time!\n\n${quizQuestion}\n\nOptions:\n`;
         options.forEach((option, index) => {
             quizMessage += `${index + 1}. ${option}\n`;
-        }
+        });
 
         // Send the quiz message to the chat
         await conn.sendMessage(m.chat, quizMessage);
 
         // Listen for replies and check if it's the correct answer
-        conn.onMessage(m.chat, (msg) => {
-            if (msg.text && msg.text.startsWith(usedPrefix) && !msg.isGroup) {
-                const selectedOption = parseInt(msg.text.replace(usedPrefix, ""));
-                if (selectedOption >= 1 && selectedOption <= options.length) {
+        conn.onMessage(m.chat, async (msg) => {
+            if (msg.text) {
+                const selectedOption = parseInt(msg.text);
+                if (!isNaN(selectedOption) && selectedOption >= 1 && selectedOption <= options.length) {
                     if (options[selectedOption - 1] === correctAnswer) {
                         // Correct answer
-                        conn.reply(msg.chat, '✅ Correct answer!', msg);
+                        await conn.reply(m.chat, '✅ Correct answer!', m);
                     } else {
                         // Incorrect answer
-                        conn.reply(msg.chat, '❌ Incorrect answer. Try again!', msg);
+                        await conn.reply(m.chat, '❌ Incorrect answer. Try again!', m);
                     }
                 }
             }
         });
     } else {
         // Handle other commands or messages here
-        return conn.reply(m.chat, '❓ Invalid command. Use *"quiz"* to start a quiz game.', m);
+        await conn.reply(m.chat, '❓ Invalid command. Use *"quiz"* to start a quiz game.', m);
     }
 }
 
@@ -79,11 +76,3 @@ handler.tags = ["group"]
 handler.command = /^(quiz)$/i
 
 export default handler;
-
-// Function to shuffle an array randomly
-function shuffleArray(arr) {
-    for (let i = arr.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [arr[i], arr[j]] = [arr[j], arr[i]];
-    }
-}
