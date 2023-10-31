@@ -98,7 +98,8 @@ let handler = async (m, {
 
         // Create the poll message with the quiz question
 const pollMessage = {
-    name: "📚 Quiz Time!\n" + quizQuestion, // Use string concatenation
+    name: 📚 Quiz Time!
+          quizQuestion, // Use string concatenation
     values: [correctAnswer, ...options],
     multiselect: false,
     selectableCount: 1
