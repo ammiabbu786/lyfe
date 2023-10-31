@@ -36,18 +36,21 @@ const handler = async (m, { conn, args }) => {
       return conn.reply(m.chat, '❓ Please provide an answer to the current question.', m);
     }
   } else {
-    return conn.reply(m.chat, '🏳️ No quiz game in progress. Use *"start"* to begin a new quiz game.', m);
+    delete conn.quizgame[key];
+    return conn.reply(m.chat, '🏁 The Quiz game is already completed. Use *"start"* to begin a new quiz game.', m);
   }
 };
 
 function askQuestion(conn, chatId, key) {
   const { currentQuestion, questions } = conn.quizgame[key];
-  const question = questions[currentQuestion].question;
-  return conn.reply(chatId, `📝 Question ${currentQuestion + 1}: ${question}`, null, {
-    contextInfo: {
-      mentionedJid: [conn.user.jid],
-    },
-  });
+  if (currentQuestion < questions.length) {
+    const question = questions[currentQuestion].question;
+    return conn.reply(chatId, `📝 Question ${currentQuestion + 1}: ${question}`, null, {
+      contextInfo: {
+        mentionedJid: [conn.user.jid],
+      },
+    });
+  }
 }
 
 handler.help = ['start', '[answer]'];
