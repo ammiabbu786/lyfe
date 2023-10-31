@@ -3,7 +3,11 @@ const handler = async (m, { conn, args }) => {
   conn.quizgame = conn.quizgame || {};
   let quizGameData = conn.quizgame[key] || {
     currentQuestion: -1,
-    questions: [],
+    questions: [
+      { category: 'General Knowledge', question: 'What is the capital of France?', answer: 'Paris' },
+      { category: 'General Knowledge', question: 'How many continents are there on Earth?', answer: '7' },
+      { category: 'Science', question: 'What is the largest planet in our solar system?', answer: 'Jupiter' },
+    ],
   };
 
   conn.quizgame[key] = quizGameData;
@@ -45,7 +49,8 @@ function askQuestion(conn, chatId, key) {
   const { currentQuestion, questions } = conn.quizgame[key];
   if (currentQuestion >= 0 && currentQuestion < questions.length) {
     const question = questions[currentQuestion].question;
-    return conn.reply(chatId, `📝 Question: ${question}`, null, {
+    const category = questions[currentQuestion].category;
+    return conn.reply(chatId, `📝 Category: ${category}\nQuestion: ${question}`, null, {
       contextInfo: {
         mentionedJid: [conn.user.jid],
       },
