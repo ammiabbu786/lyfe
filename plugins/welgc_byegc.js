@@ -15,9 +15,10 @@ let handler = async (m, {
         // Shuffle the options for randomness
         shuffleArray(options);
 
-        // Create the poll message
+        // Create the poll message with the quiz question
         const pollMessage = {
             name: `📚 Quiz Time!`,
+            question: quizQuestion, // Include the quiz question here
             values: [correctAnswer, ...options],
             multiselect: false,
             selectableCount: 1
