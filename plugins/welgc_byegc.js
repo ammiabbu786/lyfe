@@ -1,55 +1,57 @@
 const handler = async (m, { conn, args }) => {
   const key = m.chat;
-  conn.numbergame = conn.numbergame || {};
-  let numberGameData = conn.numbergame[key] || {
-    currentRound: 0,
+  conn.quizgame = conn.quizgame || {};
+  let quizGameData = conn.quizgame[key] || {
+    currentQuestion: 0,
+    questions: [
+      { question: 'What is the capital of France?', answer: 'Paris' },
+      { question: 'How many continents are there on Earth?', answer: '7' },
+      { question: 'What is the largest planet in our solar system?', answer: 'Jupiter' },
+    ],
   };
-  conn.numbergame[key] = numberGameData;
-  const { currentRound } = numberGameData;
-  const feature = args[0]?.toLowerCase();
+  conn.quizgame[key] = quizGameData;
+  const { currentQuestion, questions } = quizGameData;
 
-  if (currentRound < 3) {
-    // Continue with the Word Chain game
-    // (You can reuse the existing Word Chain logic here)
-    // ...
-  } else if (currentRound >= 3) {
-    // Transition to the number guessing game
-    if (feature === 'stop') {
-      delete conn.numbergame[key];
-      return conn.reply(m.chat, '🏳️ *Number Guessing game stopped.*', m);
-    }
-
-    if (feature === 'start') {
-      const min = 1;
-      const max = 10;
-      const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
-      return conn.reply(m.chat, `🎮 *Number Guessing game started.*\nI'm thinking of a number between ${min} and ${max}. Guess the number!`, m);
-    }
-
-    if (!isNaN(feature)) {
-      const guess = parseInt(feature);
-      const min = 20;
-      const max = 30;
-      const correctNumber = Math.floor(Math.random() * (max - min + 1)) + min;
-
-      if (guess === correctNumber) {
-        delete conn.numbergame[key];
-        return conn.reply(m.chat, `🎉 Congratulations! You guessed the correct number (${correctNumber}). You won the Number Guessing game!`, m);
-      } else {
-        return conn.reply(m.chat, '❌ Incorrect guess. Try again!', m);
-      }
-    }
-
-    if (feature === 'help') {
-      return conn.reply(m.chat, '🌟 *Number Guessing Game Commands:*\n\n*numbergame start* - Start the Number Guessing game\n*numbergame stop* - Stop the Number Guessing game\n*[number]* - Make a guess in the Number Guessing game', m);
-    }
+  if (args[0] === 'start') {
+    conn.quizgame[key].currentQuestion = 0;
+    return askQuestion(conn, m.chat, key);
   }
-  
-  return conn.reply(m.chat, '❓ Invalid command. Use *"numbergame help"* to see the available commands.', m);
+
+  if (currentQuestion < questions.length) {
+    const userAnswer = args[0];
+    if (userAnswer) {
+      const correctAnswer = questions[currentQuestion].answer.toLowerCase();
+      if (userAnswer.toLowerCase() === correctAnswer) {
+        conn.quizgame[key].currentQuestion++;
+        if (currentQuestion < questions.length) {
+          return askQuestion(conn, m.chat, key);
+        } else {
+          delete conn.quizgame[key];
+          return conn.reply(m.chat, '🎉 Congratulations! You completed the Quiz game!', m);
+        }
+      } else {
+        return conn.reply(m.chat, '❌ Incorrect answer. Try again!', m);
+      }
+    } else {
+      return conn.reply(m.chat, '❓ Please provide an answer to the current question.', m);
+    }
+  } else {
+    return conn.reply(m.chat, '🏳️ No quiz game in progress. Use *"start"* to begin a new quiz game.', m);
+  }
 };
 
-handler.help = ['numbergame [number]', 'numbergame start', 'numbergame stop'];
+function askQuestion(conn, chatId, key) {
+  const { currentQuestion, questions } = conn.quizgame[key];
+  const question = questions[currentQuestion].question;
+  return conn.reply(chatId, `📝 Question ${currentQuestion + 1}: ${question}`, null, {
+    contextInfo: {
+      mentionedJid: [conn.user.jid],
+    },
+  });
+}
+
+handler.help = ['start', '[answer]'];
 handler.tags = ['game'];
-handler.command = /^$/i;
+handler.command = /^quiz$/i;
 
 export default handler;
