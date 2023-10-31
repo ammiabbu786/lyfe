@@ -20,7 +20,7 @@ const quizQuestions = [
 // Shuffle the quiz questions array
 shuffleArray(quizQuestions);
 
-const usedQuestions = {}; // To keep track of used questions for each user
+const userResponses = {}; // To keep track of user responses
 
 let handler = async (m, {
     conn,
@@ -31,12 +31,12 @@ let handler = async (m, {
 }) => {
     if (command === 'quiz') {
         // Check if the user has already answered this question
-        if (usedQuestions[m.sender]) {
+        if (userResponses[m.sender]) {
             return conn.reply(m.chat, 'You have already answered this question.', m);
         }
 
         // Find the next unanswered question
-        const currentQuestion = quizQuestions.find((q) => !usedQuestions[m.sender]?.[q.question]);
+        const currentQuestion = quizQuestions.find((q) => !userResponses[m.sender]?.[q.question]);
 
         if (!currentQuestion) {
             return conn.reply(m.chat, 'You have completed the quiz. There are no more questions.', m);
@@ -62,22 +62,22 @@ let handler = async (m, {
         const pollResponse = await conn.sendMessage(m.chat, { poll: pollMessage });
 
         // Store the correct answer for this user
-        usedQuestions[m.sender] = { [quizQuestion]: correctAnswer };
+        userResponses[m.sender] = { [quizQuestion]: correctAnswer };
 
-        // Listen for user's response using a custom message handler
-        const responseHandler = (userResponse) => {
-            if (userResponse.text === correctAnswer) {
-                conn.reply(m.chat, '🎉 You win!', m);
-            } else {
-                conn.reply(m.chat, `❌ You lose. The correct answer is: ${correctAnswer}`, m);
+        // Poll for user's response
+        const responseInterval = setInterval(() => {
+            if (userResponses[m.sender]?.[quizQuestion]) {
+                // User has responded
+                clearInterval(responseInterval);
+
+                if (userResponses[m.sender][quizQuestion] === correctAnswer) {
+                    conn.reply(m.chat, '🎉 You win!', m);
+                } else {
+                    conn.reply(m.chat, `❌ You lose. The correct answer is: ${correctAnswer}`, m);
+                }
             }
+        }, 1000); // Poll every 1 second
 
-            // Remove the message listener after handling the response
-            conn.removeListener('message', responseHandler);
-        }
-
-        // Listen for messages to capture user response
-        conn.on('message', responseHandler);
     } else {
         return conn.reply(m.chat, '❓ Invalid command. Use *"quiz"* to start a quiz game.', m);
     }
