@@ -1,40 +1,48 @@
-let handler = async (m, { conn, text, usedPrefix, command, customPrefix }) => {
-  let stikerwelgc = "./src/welgc.webp";
-  let stikerbyegc = "./src/byegc.webp";
+let handler = async (m, {
+    conn,
+    text,
+    args,
+    usedPrefix,
+    command
+}) => {
+    // Check if the user wants to start a quiz game
+    if (text.toLowerCase() === 'quiz') {
+        // Generate a random quiz question and answer options
+        const quizQuestion = "What is the capital of France?";
+        const correctAnswer = "Paris";
+        const options = ["Paris", "London", "Berlin", "Madrid"];
 
-  if (command == 'welcomegc') {
-    conn.sendFile(m.chat, stikerwelgc, 'sticker.webp', null, m, false, {
-      contextInfo: {
-        externalAdReply: {
-          title: '𝙰𝙱𝙷𝙸𝚂𝙷𝙴𝙺-𝚂𝙴𝚁🎯',
-          body: '𝙰𝙱𝙷𝙸𝚂𝙷𝙴𝙺-𝚂𝚄𝚁𝙴𝚂𝙷☘️',
-          sourceUrl: `https://github.com/AbhishekSuresh2/ABHISHEK-SER`,
-          thumbnail: 'https://replicate.delivery/pbxt/QbP6Fh3ZXwKON9SCB70ERGwwgeeSbztwKIOIzhUeXFkwnFHiA/out.png' // Replace with the URL of the thumbnail image
+        // Shuffle the options for randomness
+        shuffleArray(options);
+
+        // Create the poll message
+        const pollMessage = {
+            name: `📚 Quiz Time!`,
+            values: [correctAnswer, ...options],
+            multiselect: false,
+            selectableCount: 1
         }
-      }
-    });
-  }
 
-  if (command == 'byegc') {
-    conn.sendFile(m.chat, stikerbyegc, 'sticker.webp', null, m, false, {
-      contextInfo: {
-        externalAdReply: {
-          title: '𝙰𝙱𝙷𝙸𝚂𝙷𝙴𝙺-𝚂𝙴𝚁🎯',
-          body: '𝙰𝙱𝙷𝙸𝚂𝙷𝙴𝙺-𝚂𝚄𝚁𝙴𝚂𝙷☘️',
-          sourceUrl: `https://github.com/AbhishekSuresh2/ABHISHEK-SER`,
-          thumbnail: 'https://replicate.delivery/pbxt/QbP6Fh3ZXwKON9SCB70ERGwwgeeSbztwKIOIzhUeXFkwnFHiA/out.png' // Replace with the URL of the thumbnail image
-        }
-      }
-    });
-  }
-};
+        // Send the quiz poll to the chat
+        await conn.sendMessage(m.chat, {
+            poll: pollMessage
+        });
+    } else {
+        // Handle other commands or messages here
+        return conn.reply(m.chat, '❓ Invalid command. Use *"quiz"* to start a quiz game.', m);
+    }
+}
 
-handler.command = ['welcomegc', 'byegc'];
+handler.help = ["quiz"]
+handler.tags = ["group"]
+handler.command = /^(quiz)$/i
 
 export default handler;
 
-// The pickRandom function is defined but not used in this code.
-// If you plan to use it, make sure to define the 'list' variable as well.
-function pickRandom(list) {
-  return list[Math.floor(list.length * Math.random())];
+// Function to shuffle the answer options randomly.
+function shuffleArray(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
 }
