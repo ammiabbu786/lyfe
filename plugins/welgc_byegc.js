@@ -1,13 +1,25 @@
 const handler = async (m, { conn, args }) => {
   const key = m.chat;
   conn.quizgame = conn.quizgame || {};
-  let quizGameData = conn.quizgame[key] || {
-    currentQuestion: -1,
-    questions: [
+  const categories = {
+    general: [
       { question: 'What is the capital of France?', answer: 'Paris' },
       { question: 'How many continents are there on Earth?', answer: '7' },
       { question: 'What is the largest planet in our solar system?', answer: 'Jupiter' },
     ],
+    nature: [
+      { question: 'What is the largest mammal on Earth?', answer: 'Blue Whale' },
+      { question: 'What gas do plants absorb from the atmosphere?', answer: 'Carbon Dioxide' },
+      { question: 'What is the process of a caterpillar transforming into a butterfly called?', answer: 'Metamorphosis' },
+    ],
+    more: [
+      // Add more questions in the "more" category
+    ],
+  };
+
+  let quizGameData = conn.quizgame[key] || {
+    currentQuestion: -1,
+    questions: categories.general, // Default category
   };
 
   conn.quizgame[key] = quizGameData;
@@ -23,7 +35,7 @@ const handler = async (m, { conn, args }) => {
   }
 
   if (currentQuestion >= 0 && currentQuestion < questions.length) {
-    const userAnswer = args[0];
+    const userAnswer = args.join(' '); // Allow users to answer without a specific format
     if (userAnswer) {
       const correctAnswer = questions[currentQuestion].answer.toLowerCase();
       if (userAnswer.toLowerCase() === correctAnswer) {
@@ -32,7 +44,7 @@ const handler = async (m, { conn, args }) => {
           return askQuestion(conn, m.chat, key);
         } else {
           delete conn.quizgame[key];
-          return conn.reply(m.chat, '🎉 Congratulations! You completed the Quiz game!', m);
+          return conn.reply(m.chat, '🎉 Congratulations! You completed the Quiz game.', m);
         }
       } else {
         return conn.reply(m.chat, '❌ Incorrect answer. Try again!', m);
