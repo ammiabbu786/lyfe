@@ -25,7 +25,7 @@ let handler = async (m, {
     args,
     usedPrefix
 }) => {
-    if (text === 'quiz') {
+    if (text.toLowerCase() === 'quiz') {
         if (usedQuestions.length === quizQuestions.length) {
             usedQuestions.length = 0;
         }
@@ -47,8 +47,6 @@ let handler = async (m, {
         const quizMessage = `📚 Quiz Time!\n\n${quizQuestion}\n\nOptions:\n${options.map((opt, idx) => `${idx + 1}. ${opt}`).join("\n")}\n\nReply with the number of your answer.`;
 
         conn.sendMessage(m.chat, quizMessage, m);
-    } else {
-        return; // Do nothing for other commands or messages
     }
 }
 
