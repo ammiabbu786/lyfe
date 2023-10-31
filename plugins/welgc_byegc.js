@@ -20,7 +20,7 @@ const quizQuestions = [
 // Shuffle the quiz questions array
 shuffleArray(quizQuestions);
 
-const userResponses = {}; // To keep track of user responses
+const usedQuestions = []; // To keep track of used questions
 
 let handler = async (m, {
     conn,
@@ -29,59 +29,47 @@ let handler = async (m, {
     usedPrefix,
     command
 }) => {
+    // Check if the user wants to start a quiz game
     if (command === 'quiz') {
-        // Check if the user has already answered this question
-        if (userResponses[m.sender]) {
-            return conn.reply(m.chat, 'You have already answered this question.', m);
+        // Check if all questions have been used
+        if (usedQuestions.length === quizQuestions.length) {
+            usedQuestions.length = 0; // Reset used questions when all questions have been used
         }
 
-        // Find the next unanswered question
-        const currentQuestion = quizQuestions.find((q) => !userResponses[m.sender]?.[q.question]);
-
-        if (!currentQuestion) {
-            return conn.reply(m.chat, 'You have completed the quiz. There are no more questions.', m);
-        }
+        // Select the next question from the shuffled array
+        const currentQuestion = quizQuestions[usedQuestions.length];
+        usedQuestions.push(usedQuestions.length);
 
         const quizQuestion = currentQuestion.question;
         const correctAnswer = currentQuestion.correctAnswer;
         const options = currentQuestion.options;
 
-        // Shuffle the options for randomness
-        shuffleArray(options);
-
-        // Create the poll message with the title and options
-        const pollMessage = {
-            name: `📚 Quiz Time!\n\n${quizQuestion}`,
-            title: `Quiz Time: ${quizQuestion}`,
-            values: [correctAnswer, ...options],
-            multiselect: false,
-            selectableCount: 1
+        // Display the question and options as text messages
+        let quizMessage = `📚 Quiz Time!\n\n${quizQuestion}\n\n`;
+        options.forEach((option, index) => {
+            quizMessage += `${index + 1}. ${option}\n`;
         }
 
-        // Send the quiz poll to the chat
-        const pollResponse = await conn.sendMessage(m.chat, { poll: pollMessage });
+        // Send the quiz message to the chat
+        await conn.sendMessage(m.chat, quizMessage);
 
-        // Store the correct answer for this user
-        userResponses[m.sender] = { [quizQuestion]: correctAnswer };
-
-        // Listen for user's response using a custom message handler
-        const responseHandler = (msg) => {
-            if (msg.pollMessage && msg.pollMessage.id === pollResponse.poll.id) {
-                const selectedOption = msg.pollMessage.values[msg.pollMessage.selectedId];
-                if (selectedOption === correctAnswer) {
-                    conn.reply(m.chat, '🎉 You win!', m);
-                } else {
-                    conn.reply(m.chat, `❌ You lose. The correct answer is: ${correctAnswer}`, m);
+        // Listen for replies and check if it's the correct answer
+        conn.onMessage(m.chat, (msg) => {
+            if (msg.text && msg.text.startsWith(usedPrefix) && !msg.isGroup) {
+                const selectedOption = parseInt(msg.text.replace(usedPrefix, ""));
+                if (selectedOption >= 1 && selectedOption <= options.length) {
+                    if (options[selectedOption - 1] === correctAnswer) {
+                        // Correct answer
+                        conn.reply(msg.chat, '✅ Correct answer!', msg);
+                    } else {
+                        // Incorrect answer
+                        conn.reply(msg.chat, '❌ Incorrect answer. Try again!', msg);
+                    }
                 }
-
-                // Remove the message listener after handling the response
-                conn.off('message', responseHandler);
             }
-        }
-
-        // Listen for messages to capture user response
-        conn.on('message', responseHandler);
+        });
     } else {
+        // Handle other commands or messages here
         return conn.reply(m.chat, '❓ Invalid command. Use *"quiz"* to start a quiz game.', m);
     }
 }
