@@ -63,9 +63,9 @@ let handler = async (m, {
         conn.onPoll(pollResponse.key, async (result) => {
             const selectedOption = result[0].text;
             if (selectedOption === correctAnswer) {
-                conn.reply(m.chat, '🎉 Your answer is correct!', m);
+                conn.reply(m.chat, '🎉 You win!', m);
             } else {
-                conn.reply(m.chat, '❌ Your answer is incorrect. The correct answer is ' + correctAnswer, m);
+                conn.reply(m.chat, '❌ You lose. The correct answer is ' + correctAnswer, m);
             }
         });
     } else {
