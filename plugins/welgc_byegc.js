@@ -6,7 +6,7 @@ let handler = async (m, {
     command
 }) => {
     // Check if the user wants to start a quiz game
-    if (text.toLowerCase() === 'quiz') {
+    if (command === 'quiz') {
         // Generate a random quiz question and answer options
         const quizQuestion = "What is the capital of France?";
         const correctAnswer = "Paris";
