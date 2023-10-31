@@ -25,20 +25,13 @@ const handler = async (m, { conn, args }) => {
         conn.quizgame[key].currentQuestion++;
         if (currentQuestion < questions.length) {
           return askQuestion(conn, m.chat, key);
-        } else {
-          delete conn.quizgame[key];
-          return conn.reply(m.chat, '🎉 Congratulations! You completed the Quiz game!', m);
         }
-      } else {
-        return conn.reply(m.chat, '❌ Incorrect answer. Try again!', m);
       }
-    } else {
-      return conn.reply(m.chat, '❓ Please provide an answer to the current question.', m);
     }
-  } else {
-    delete conn.quizgame[key];
-    return conn.reply(m.chat, '🏁 The Quiz game is already completed. Use *"start"* to begin a new quiz game.', m);
   }
+
+  delete conn.quizgame[key];
+  return conn.reply(m.chat, '🏁 The Quiz game is completed. Use *"start"* to begin a new quiz game.', m);
 };
 
 function askQuestion(conn, chatId, key) {
