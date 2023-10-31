@@ -24,11 +24,10 @@ let handler = async (m, {
     conn,
     text,
     args,
-    usedPrefix,
-    command
+    usedPrefix
 }) => {
     // Check if the user wants to start a quiz game
-    if (command === 'quiz') {
+    if (text.toLowerCase() === 'quiz') {
         // Check if all questions have been used
         if (usedQuestions.length === quizQuestions.length) {
             usedQuestions.length = 0; // Reset used questions when all questions have been used
@@ -51,19 +50,11 @@ let handler = async (m, {
         // Shuffle the options for randomness
         shuffleArray(options);
 
-        // Create the poll message with the quiz question
-        const pollMessage = {
-            name: `📚 Quiz Time!`,
-            question: quizQuestion,
-            values: [correctAnswer, ...options],
-            multiselect: false,
-            selectableCount: 1
-        }
+        // Create the quiz message
+        const quizMessage = `📚 Quiz Time!\n\n${quizQuestion}\n\nOptions:\n${options.map((opt, idx) => `${idx + 1}. ${opt}`).join("\n")}\n\nReply with the number of your answer.`;
 
-        // Send the quiz poll to the chat
-        await conn.sendMessage(m.chat, {
-            poll: pollMessage
-        });
+        // Send the quiz message to the chat
+        conn.sendMessage(m.chat, quizMessage, m);
     } else {
         // Handle other commands or messages here
         return conn.reply(m.chat, '❓ Invalid command. Use *"quiz"* to start a quiz game.', m);
