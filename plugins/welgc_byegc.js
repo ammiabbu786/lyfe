@@ -50,15 +50,25 @@ let handler = async (m, {
         // Create the poll message with the title including "Quiz Time" and the quiz question
         const pollMessage = {
             name: `📚 Quiz Time!\n\n${quizQuestion}`,
-            title: `Quiz Time: ${quizQuestion}`, // Set the title with "Quiz Time" and the quiz question
+            title: `Quiz Time: ${quizQuestion}`,
             values: [correctAnswer, ...options],
             multiselect: false,
             selectableCount: 1
         }
 
         // Send the quiz poll to the chat
-        await conn.sendMessage(m.chat, {
-            poll: pollMessage
+        const pollResponse = await conn.sendMessage(m.chat, { poll: pollMessage });
+
+        // Listen for user's response
+        conn.onMessage(m => {
+            if (m.pollMessage && m.pollMessage.id === pollResponse.id) {
+                const selectedOption = m.pollMessage.values[m.pollMessage.selectedId];
+                if (selectedOption === correctAnswer) {
+                    conn.reply(m.chat, '🎉 Your answer is correct!', m);
+                } else {
+                    conn.reply(m.chat, '❌ Your answer is incorrect. The correct answer is ' + correctAnswer, m);
+                }
+            }
         });
     } else {
         // Handle other commands or messages here
@@ -79,3 +89,4 @@ function shuffleArray(arr) {
         [arr[i], arr[j]] = [arr[j], arr[i]];
     }
 }
+
