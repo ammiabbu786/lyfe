@@ -50,27 +50,4 @@ const handler = async (m, { conn, args }) => {
         return conn.reply(m.chat, '❌ Incorrect answer. Try again!', m);
       }
     } else {
-      return conn.reply(m.chat, '❓ Please provide an answer to the current question.', m);
-    }
-  } else {
-    return conn.reply(m.chat, '🏁 The Quiz game is not started. Use *"start"* to begin the quiz game.', m);
-  }
-};
-
-function askQuestion(conn, chatId, key) {
-  const { currentQuestion, questions } = conn.quizgame[key];
-  if (currentQuestion >= 0 && currentQuestion < questions.length) {
-    const question = questions[currentQuestion].question;
-    return conn.reply(chatId, `📝 Question: ${question}`, null, {
-      contextInfo: {
-        mentionedJid: [conn.user.jid],
-      },
-    });
-  }
-}
-
-handler.help = ['start', '[answer]'];
-handler.tags = ['game'];
-handler.command = /^quiz$/i;
-
-export default handler;
+      return conn.reply(m.chat, '❓ Please
