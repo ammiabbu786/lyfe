@@ -22,20 +22,6 @@ shuffleArray(quizQuestions);
 
 const userResponses = {}; // To keep track of user responses
 
-// Add a button handling system
-conn.on('button', async (button) => {
-    if (button.id === 'quiz_response') {
-        const quizQuestion = button.data;
-        const correctAnswer = userResponses[button.sender][quizQuestion];
-
-        if (button.reply === correctAnswer) {
-            conn.sendMessage(button.chatId, '🎉 You win!', button.message);
-        } else {
-            conn.sendMessage(button.chatId, `❌ You lose. The correct answer is: ${correctAnswer}`, button.message);
-        }
-    }
-});
-
 let handler = async (m, {
     conn,
     text,
@@ -63,33 +49,38 @@ let handler = async (m, {
         // Shuffle the options for randomness
         shuffleArray(options);
 
-        // Create a poll message for the quiz question
+        // Create the poll message with the title and options
         const pollMessage = {
             name: `📚 Quiz Time!\n\n${quizQuestion}`,
             title: `Quiz Time: ${quizQuestion}`,
-            values: [correctAnswer, ...options].map(option => {
-                return {
-                    buttonId: 'quiz_response',
-                    buttonText: option,
-                    description: 'Choose this option',
-                    data: quizQuestion,
-                    isReply: true,
-                    reply: option
-                };
-            }),
-            buttons: [
-                { buttonId: 'quiz_response', buttonText: 'Skip', description: 'Skip this question', data: quizQuestion, isReply: false }
-            ]
+            values: [correctAnswer, ...options],
+            multiselect: false,
+            selectableCount: 1
         }
 
         // Send the quiz poll to the chat
-        await conn.sendMessage(m.chat, { poll: pollMessage });
+        const pollResponse = await conn.sendMessage(m.chat, { poll: pollMessage });
 
         // Store the correct answer for this user
-        if (!userResponses[m.sender]) {
-            userResponses[m.sender] = {};
+        userResponses[m.sender] = { [quizQuestion]: correctAnswer };
+
+        // Listen for user's response using a custom message handler
+        const responseHandler = (msg) => {
+            if (msg.pollMessage && msg.pollMessage.id === pollResponse.poll.id) {
+                const selectedOption = msg.pollMessage.values[msg.pollMessage.selectedId];
+                if (selectedOption === correctAnswer) {
+                    conn.reply(m.chat, '🎉 You win!', m);
+                } else {
+                    conn.reply(m.chat, `❌ You lose. The correct answer is: ${correctAnswer}`, m);
+                }
+
+                // Remove the message listener after handling the response
+                conn.off('message', responseHandler);
+            }
         }
-        userResponses[m.sender][quizQuestion] = correctAnswer;
+
+        // Listen for messages to capture user response
+        conn.on('message', responseHandler);
     } else {
         return conn.reply(m.chat, '❓ Invalid command. Use *"quiz"* to start a quiz game.', m);
     }
