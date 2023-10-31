@@ -64,20 +64,23 @@ let handler = async (m, {
         // Store the correct answer for this user
         userResponses[m.sender] = { [quizQuestion]: correctAnswer };
 
-        // Poll for user's response
-        const responseInterval = setInterval(() => {
-            if (userResponses[m.sender]?.[quizQuestion]) {
-                // User has responded
-                clearInterval(responseInterval);
-
-                if (userResponses[m.sender][quizQuestion] === correctAnswer) {
+        // Listen for user's response using a custom message handler
+        const responseHandler = (msg) => {
+            if (msg.pollMessage && msg.pollMessage.id === pollResponse.poll.id) {
+                const selectedOption = msg.pollMessage.values[msg.pollMessage.selectedId];
+                if (selectedOption === correctAnswer) {
                     conn.reply(m.chat, '🎉 You win!', m);
                 } else {
                     conn.reply(m.chat, `❌ You lose. The correct answer is: ${correctAnswer}`, m);
                 }
-            }
-        }, 1000); // Poll every 1 second
 
+                // Remove the message listener after handling the response
+                conn.off('message', responseHandler);
+            }
+        }
+
+        // Listen for messages to capture user response
+        conn.on('message', responseHandler);
     } else {
         return conn.reply(m.chat, '❓ Invalid command. Use *"quiz"* to start a quiz game.', m);
     }
@@ -91,7 +94,7 @@ export default handler;
 
 // Function to shuffle an array randomly
 function shuffleArray(arr) {
-    for (let i = arr.length - 1; i > 0; i--) {
+    for (let i = arr.length - 1; i > 0; i++) {
         const j = Math.floor(Math.random() * (i + 1));
         [arr[i], arr[j]] = [arr[j], arr[i]];
     }
