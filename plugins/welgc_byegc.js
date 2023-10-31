@@ -20,12 +20,31 @@ const quizQuestions = [
 // Shuffle the quiz questions array
 shuffleArray(quizQuestions);
 
-// Create an empty object to store user responses
-const userResponses = {};
+const userResponses = {}; // To keep track of user responses
 
-let handler = async (m, { conn, text, command }) => {
+// Add a button handling system
+conn.on('button', async (button) => {
+    if (button.id === 'quiz_response') {
+        const quizQuestion = button.data;
+        const correctAnswer = userResponses[button.sender][quizQuestion];
+
+        if (button.reply === correctAnswer) {
+            conn.sendMessage(button.chatId, '🎉 You win!', button.message);
+        } else {
+            conn.sendMessage(button.chatId, `❌ You lose. The correct answer is: ${correctAnswer}`, button.message);
+        }
+    }
+});
+
+let handler = async (m, {
+    conn,
+    text,
+    args,
+    usedPrefix,
+    command
+}) => {
     if (command === 'quiz') {
-        // Check if the user has already answered the current question
+        // Check if the user has already answered this question
         if (userResponses[m.sender]) {
             return conn.reply(m.chat, 'You have already answered this question.', m);
         }
@@ -44,30 +63,33 @@ let handler = async (m, { conn, text, command }) => {
         // Shuffle the options for randomness
         shuffleArray(options);
 
-        // Create the poll message with the title including "Quiz Time" and the quiz question
+        // Create a poll message for the quiz question
         const pollMessage = {
             name: `📚 Quiz Time!\n\n${quizQuestion}`,
             title: `Quiz Time: ${quizQuestion}`,
-            values: [correctAnswer, ...options],
-            multiselect: false,
-            selectableCount: 1
+            values: [correctAnswer, ...options].map(option => {
+                return {
+                    buttonId: 'quiz_response',
+                    buttonText: option,
+                    description: 'Choose this option',
+                    data: quizQuestion,
+                    isReply: true,
+                    reply: option
+                };
+            }),
+            buttons: [
+                { buttonId: 'quiz_response', buttonText: 'Skip', description: 'Skip this question', data: quizQuestion, isReply: false }
+            ]
         }
 
         // Send the quiz poll to the chat
-        const pollResponse = await conn.sendMessage(m.chat, { poll: pollMessage });
+        await conn.sendMessage(m.chat, { poll: pollMessage });
 
         // Store the correct answer for this user
-        userResponses[m.sender] = { [quizQuestion]: correctAnswer };
-
-        // Delay for a while to allow user response
-        await new Promise(resolve => setTimeout(resolve, 20000));
-
-        // Check if the user has responded with the correct answer
-        if (userResponses[m.sender][quizQuestion] === correctAnswer) {
-            conn.reply(m.chat, '🎉 You win!', m);
-        } else {
-            conn.reply(m.chat, `❌ You lose. The correct answer is: ${correctAnswer}`, m);
+        if (!userResponses[m.sender]) {
+            userResponses[m.sender] = {};
         }
+        userResponses[m.sender][quizQuestion] = correctAnswer;
     } else {
         return conn.reply(m.chat, '❓ Invalid command. Use *"quiz"* to start a quiz game.', m);
     }
@@ -79,3 +101,10 @@ handler.command = /^(quiz)$/i
 
 export default handler;
 
+// Function to shuffle an array randomly
+function shuffleArray(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+}
