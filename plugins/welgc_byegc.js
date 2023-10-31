@@ -49,7 +49,7 @@ let handler = async (m, {
 
         // Create the poll message with the quiz question as the title
         const pollMessage = {
-            name: 'Quiz test' quizQuestion,
+            name: Quiz test quizQuestion,
             title: quizQuestion, // Set the question as the title
             values: [correctAnswer, ...options],
             multiselect: false,
