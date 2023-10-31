@@ -47,10 +47,10 @@ let handler = async (m, {
         // Shuffle the options for randomness
         shuffleArray(options);
 
-        // Create the poll message with the quiz question as the title
+        // Create the poll message with the title including "Quiz Time" and the quiz question
         const pollMessage = {
-            name: Quiz test quizQuestion,
-            title: quizQuestion, // Set the question as the title
+            name: quizQuestion,
+            title: `Quiz Time: ${quizQuestion}`, // Set the title with "Quiz Time" and the quiz question
             values: [correctAnswer, ...options],
             multiselect: false,
             selectableCount: 1
