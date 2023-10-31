@@ -94,7 +94,7 @@ export default handler;
 
 // Function to shuffle an array randomly
 function shuffleArray(arr) {
-    for (let i = arr.length - 1; i > 0; i++) {
+    for (let i = arr.length - 1; i > 0; i--) { // Change from i++ to i--
         const j = Math.floor(Math.random() * (i + 1));
         [arr[i], arr[j]] = [arr[j], arr[i]];
     }
