@@ -59,15 +59,13 @@ let handler = async (m, {
         // Send the quiz poll to the chat
         const pollResponse = await conn.sendMessage(m.chat, { poll: pollMessage });
 
-        // Listen for user's response
-        conn.onMessage(m => {
-            if (m.pollMessage && m.pollMessage.id === pollResponse.id) {
-                const selectedOption = m.pollMessage.values[m.pollMessage.selectedId];
-                if (selectedOption === correctAnswer) {
-                    conn.reply(m.chat, '🎉 Your answer is correct!', m);
-                } else {
-                    conn.reply(m.chat, '❌ Your answer is incorrect. The correct answer is ' + correctAnswer, m);
-                }
+        // Listen for user's response to the poll
+        conn.onPoll(pollResponse.key, async (result) => {
+            const selectedOption = result[0].text;
+            if (selectedOption === correctAnswer) {
+                conn.reply(m.chat, '🎉 Your answer is correct!', m);
+            } else {
+                conn.reply(m.chat, '❌ Your answer is incorrect. The correct answer is ' + correctAnswer, m);
             }
         });
     } else {
@@ -89,4 +87,3 @@ function shuffleArray(arr) {
         [arr[i], arr[j]] = [arr[j], arr[i]];
     }
 }
-
