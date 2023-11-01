@@ -19,10 +19,25 @@ const handler = async (m, { conn, args }) => {
     if (currentWord) {
       return conn.reply(m.chat, '⚠️ *Game already in progress.*', m);
     }
+
+    // Start the game with a delay of 60 seconds
+    await new Promise(resolve => setTimeout(resolve, 60000));
+    
     wordchainData.currentWord = getRandomWord(); // Implement a function to get a random word
+
+    // Provide instructions after starting the game
+    const instructions = `
+🎮 *Word Chain game started.*
+*🕒 Game starts in 60 seconds.*
+*type* \`join\` *to join the game*
+*wcg delete* *to delete this game session*
+    `;
+    
+    conn.reply(m.chat, instructions, m);
+
     return conn.reply(
       m.chat,
-      `🎮 *Word Chain game started.*\nCurrent Word: ${currentWord}\nWaiting for other players to join.`,
+      `Current Word: ${currentWord}\nWaiting for other players to join.`,
       m
     );
   }
@@ -102,7 +117,7 @@ Type a word to continue the Word Chain game.
       m
     );
   }
-  return conn.reply(m.chat, '❓ Invalid command. Use *"wordchain help"* to see the available commands.', m);
+  return conn.reply(m.chat, '❓ Invalid command. Use *"wcg help"* to see the available commands.', m);
 };
 
 // Implement the getRandomWord, isWordUsed, and isValidWord functions as needed.
