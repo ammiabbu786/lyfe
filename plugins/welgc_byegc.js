@@ -21,14 +21,25 @@ const handler = async (m, { conn, args }) => {
     numberGameData.currentPlayer = null;
     numberGameData.attempts = 0;
     clearTimeout(gameStartTimeout); // Clear any existing timeout
-    return conn.reply(m.chat, '🎮 *Number Guessing Game started.*\nPlayers can join using *join* command.\nUse *startgame* to begin.', m);
+
+    // Start a 15-second timer for automatic game start
+    numberGameData.gameStartTimeout = setTimeout(() => {
+      if (players.length >= 2) {
+        numberGameData.currentPlayer = players[0];
+        conn.reply(m.chat, '🏁 Game has started! It\'s @' + currentPlayer.split('@')[0] + '\'s turn to guess.', m);
+      } else {
+        conn.reply(m.chat, '⚠️ Not enough players joined. You can use *startgame* to begin manually.', m);
+      }
+    }, 15000);
+
+    return conn.reply(m.chat, '🎮 *Number Guessing Game started.*\nPlayers can join using *join* command.\nAutomatic game start in 15 seconds.\nUse *startgame* to begin manually.', m);
   }
 
   if (args[0] === 'join') {
     const senderId = m.sender;
     if (!players.includes(senderId)) {
       players.push(senderId);
-      return conn.reply(m.chat, `🙌 @${senderId.split('@')[0]} joined the game!`, m, { mentions: [senderId] });
+      return conn.reply(m.chat, '🙌 @' + senderId.split('@')[0] + ' joined the game!', m);
     } else {
       return conn.reply(m.chat, '🙅‍♂️ *You have already joined this game.*', m);
     }
@@ -43,7 +54,7 @@ const handler = async (m, { conn, args }) => {
     }
     numberGameData.currentPlayer = players[0];
     clearTimeout(gameStartTimeout); // Clear the game start timeout
-    return conn.reply(m.chat, `🏁 Game has started! It's @${currentPlayer.split('@')[0]}'s turn to guess.`, m);
+    return conn.reply(m.chat, '🏁 Game has started! It\'s @' + currentPlayer.split('@')[0] + '\'s turn to guess.', m);
   }
 
   if (numberToGuess !== 0 && currentPlayer === m.sender && guess !== undefined) {
@@ -52,15 +63,15 @@ const handler = async (m, { conn, args }) => {
       numberGameData.attempts++;
       if (playerGuess === numberToGuess) {
         delete conn.numbergame[key];
-        return conn.reply(m.chat, `🎉 @${currentPlayer.split('@')[0]} guessed the number ${numberToGuess} in ${attempts} attempts!`, m);
+        return conn.reply(m.chat, '🎉 @' + currentPlayer.split('@')[0] + ' guessed the number ' + numberToGuess + ' in ' + attempts + ' attempts!', m);
       } else if (playerGuess < numberToGuess) {
         const nextPlayerIndex = (players.indexOf(currentPlayer) + 1) % players.length;
         numberGameData.currentPlayer = players[nextPlayerIndex];
-        return conn.reply(m.chat, `🔽 @${currentPlayer.split('@')[0]}, try a higher number. It's @${currentPlayer.split('@')[0]}'s turn.`, m);
+        return conn.reply(m.chat, '🔽 @' + currentPlayer.split('@')[0] + ', try a higher number. It\'s @' + currentPlayer.split('@')[0] + '\'s turn.', m);
       } else {
         const nextPlayerIndex = (players.indexOf(currentPlayer) + 1) % players.length;
         numberGameData.currentPlayer = players[nextPlayerIndex];
-        return conn.reply(m.chat, `🔼 @${currentPlayer.split('@')[0]}, try a lower number. It's @${currentPlayer.split('@')[0]}'s turn.`, m);
+        return conn.reply(m.chat, '🔼 @' + currentPlayer.split('@')[0] + ', try a lower number. It\'s @' + currentPlayer.split('@')[0] + '\'s turn.', m);
       }
     } else {
       return conn.reply(m.chat, '❌ Please enter a valid number.', m);
