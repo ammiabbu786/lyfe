@@ -24,15 +24,23 @@ const handler = async (m, { conn, args }) => {
     if (round >= 6) {
         return conn.reply(m.chat, '🏁 *All rounds have been completed.*', m);
     }
+
+    // Check if a game is in progress
     if (numberToGuess !== 0) {
         return conn.reply(m.chat, '⚠️ *Game already in progress.*', m);
     }
 
+    // Check if the game start timeout has occurred
+    if (gameStartTimeout !== null) {
+        clearTimeout(gameStartTimeout);
+        conn.reply(m.chat, '⚠️ *Game start timeout occurred.* Starting a new game.', m);
+    }
+
+    // Start a new game
     numberGameData.numberToGuess = getRandomNumber(roundRanges[round].min, roundRanges[round].max);
     numberGameData.players = [];
     numberGameData.currentPlayer = null;
     numberGameData.attempts = 0;
-    clearTimeout(gameStartTimeout); // Clear any existing timeout
 
     // Start a 15-second timer for automatic game start
     numberGameData.gameStartTimeout = setTimeout(() => {
