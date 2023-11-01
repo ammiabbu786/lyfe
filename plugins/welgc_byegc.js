@@ -34,6 +34,8 @@ const handler = async (m, { conn, args }) => {
     if (gameStartTimeout !== null) {
         clearTimeout(gameStartTimeout);
         conn.reply(m.chat, '⚠️ *Game start timeout occurred.* Starting a new game.', m);
+    } else {
+        conn.reply(m.chat, '⚠️ Not enough players joined. Starting a new game.', m);
     }
 
     // Start a new game
@@ -54,6 +56,7 @@ const handler = async (m, { conn, args }) => {
 
     return conn.reply(m.chat, `🎮 *Number Guessing Game - Round ${round + 1} started.*\nPlayers can join using *join* command.\nAutomatic game start in 15 seconds.\nUse *startgame* to begin manually.`, m);
 }
+  
 
   if (args[0] === 'join') {
     const senderId = m.sender;
