@@ -22,11 +22,12 @@ const handler = async (m, { conn, args }) => {
 
   if (args[0] === 'start') {
     if (round >= 6) {
-      return conn.reply(m.chat, '🏁 *All rounds have been completed.*', m);
+        return conn.reply(m.chat, '🏁 *All rounds have been completed.*', m);
     }
     if (numberToGuess !== 0) {
-      return conn.reply(m.chat, '⚠️ *Game already in progress.*', m);
+        return conn.reply(m.chat, '⚠️ *Game already in progress.*', m);
     }
+
     numberGameData.numberToGuess = getRandomNumber(roundRanges[round].min, roundRanges[round].max);
     numberGameData.players = [];
     numberGameData.currentPlayer = null;
@@ -35,16 +36,16 @@ const handler = async (m, { conn, args }) => {
 
     // Start a 15-second timer for automatic game start
     numberGameData.gameStartTimeout = setTimeout(() => {
-      if (players.length >= 2) {
-        numberGameData.currentPlayer = players[0];
-        conn.reply(m.chat, `🏁 Round ${round + 1} has started! Guess a number between ${roundRanges[round].min}-${roundRanges[round].max}. It's @${currentPlayer.split('@')[0]}'s turn to guess.`, m);
-      } else {
-        conn.reply(m.chat, '⚠️ Not enough players joined. You can use *join* to begin manually.', m);
-      }
+        if (players.length >= 2) {
+            numberGameData.currentPlayer = players[0];
+            conn.reply(m.chat, `🏁 Round ${round + 1} has started! Guess a number between ${roundRanges[round].min}-${roundRanges[round].max}. It's @${currentPlayer.split('@')[0]}'s turn to guess.`, m);
+        } else {
+            conn.reply(m.chat, '⚠️ Not enough players joined. Starting a new game.', m);
+        }
     }, 15000);
 
     return conn.reply(m.chat, `🎮 *Number Guessing Game - Round ${round + 1} started.*\nPlayers can join using *join* command.\nAutomatic game start in 15 seconds.\nUse *startgame* to begin manually.`, m);
-  }
+}
 
   if (args[0] === 'join') {
     const senderId = m.sender;
