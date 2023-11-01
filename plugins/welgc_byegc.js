@@ -6,9 +6,10 @@ const handler = async (m, { conn, args }) => {
     players: [],
     currentPlayer: null,
     attempts: 0,
+    gameStartTimeout: null, // Timeout for automatic game start
   };
   conn.numbergame[key] = numberGameData;
-  const { numberToGuess, players, currentPlayer, attempts } = numberGameData;
+  const { numberToGuess, players, currentPlayer, attempts, gameStartTimeout } = numberGameData;
   const guess = args[0];
 
   if (args[0] === 'start') {
@@ -19,6 +20,7 @@ const handler = async (m, { conn, args }) => {
     numberGameData.players = [];
     numberGameData.currentPlayer = null;
     numberGameData.attempts = 0;
+    clearTimeout(gameStartTimeout); // Clear any existing timeout
     return conn.reply(m.chat, '🎮 *Number Guessing Game started.*\nPlayers can join using *join* command.\nUse *startgame* to begin.', m);
   }
 
@@ -40,6 +42,7 @@ const handler = async (m, { conn, args }) => {
       return conn.reply(m.chat, '⚠️ *Game already in progress.*', m);
     }
     numberGameData.currentPlayer = players[0];
+    clearTimeout(gameStartTimeout); // Clear the game start timeout
     return conn.reply(m.chat, `🏁 Game has started! It's @${currentPlayer.split('@')[0]}'s turn to guess.`, m);
   }
 
@@ -66,6 +69,7 @@ const handler = async (m, { conn, args }) => {
 
   if (args[0] === 'stop') {
     delete conn.numbergame[key];
+    clearTimeout(gameStartTimeout); // Clear the game start timeout
     return conn.reply(m.chat, '🏳️ *Number Guessing Game stopped.*', m);
   }
 
