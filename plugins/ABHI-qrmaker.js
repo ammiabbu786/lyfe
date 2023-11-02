@@ -1,3 +1,7 @@
+const axios = require('axios');
+
+const apiEndpoint = 'https://inrl-web.onrender.com/api/checkword?text=';
+
 const handler = async (m, { conn, args }) => {
   const key = m.chat;
   conn.wordchain = conn.wordchain || {};
@@ -19,25 +23,10 @@ const handler = async (m, { conn, args }) => {
     if (currentWord) {
       return conn.reply(m.chat, '⚠️ *Game already in progress.*', m);
     }
-
-    // Start the game with a delay of 60 seconds
-    await new Promise(resolve => setTimeout(resolve, 60000));
-    
     wordchainData.currentWord = getRandomWord(); // Implement a function to get a random word
-
-    // Provide instructions after starting the game
-    const instructions = `
-🎮 *Word Chain game started.*
-*🕒 Game starts in 60 seconds.*
-*type* \`join\` *to join the game*
-*wcg delete* *to delete this game session*
-    `;
-    
-    conn.reply(m.chat, instructions, m);
-
     return conn.reply(
       m.chat,
-      `Current Word: ${currentWord}\nWaiting for other players to join.`,
+      `🎮 *Word Chain game started.*\nCurrent Word: ${currentWord}\nWaiting for other players to join.`,
       m
     );
   }
@@ -73,8 +62,10 @@ const handler = async (m, { conn, args }) => {
     if (isWordUsed(playerWord)) {
       return conn.reply(m.chat, '❌ *That word has already been used.*', m);
     }
-    // Check if the word is valid (you can use an API or dictionary for this)
-    if (isValidWord(playerWord)) {
+    
+    // Check if the word is valid using the provided API
+    const isValid = await checkWordValidity(playerWord);
+    if (isValid) {
       // Update the current word and check for a win condition
       wordchainData.currentWord = playerWord;
       hasJoined.forEach((player) => {
@@ -117,10 +108,18 @@ Type a word to continue the Word Chain game.
       m
     );
   }
-  return conn.reply(m.chat, '❓ Invalid command. Use *"wcg help"* to see the available commands.', m);
+  return conn.reply(m.chat, '❓ Invalid command. Use *"wordchain help"* to see the available commands.', m);
 };
 
-// Implement the getRandomWord, isWordUsed, and isValidWord functions as needed.
+// Function to check word validity using the provided API
+async function checkWordValidity(word) {
+  try {
+    const response = await axios.get(apiEndpoint + word);
+    return response.data.isValid === true;
+  } catch (error) {
+    return false;
+  }
+}
 
 // Placeholder function for getting a random word
 function getRandomWord() {
@@ -135,14 +134,8 @@ function isWordUsed(word) {
   return false; // Replace with actual implementation
 }
 
-// Placeholder function to check if a word is valid
-function isValidWord(word) {
-  // Implement logic to check if the word is a valid English word
-  return true; // Replace with actual implementation
-}
-
-handler.help = ['wordchain [word]', 'wordchain create', 'wordchain join', 'wordchain delete'];
+handler.help = ['wcg [word]', 'wordchain create', 'wcg join', 'wcg stop'];
 handler.tags = ['game'];
-handler.command = /^wordchain$/i;
+handler.command = /^wcg$/i;
 
 export default handler;
