@@ -5,7 +5,7 @@ import fs from 'fs'
 import fetch from 'node-fetch'
 import axios from 'axios'
 
-SESSION_ID: process.env.SESSION_ID || 'Abhi_CavityBrush', //Enter Your Session Id
+SESSION_ID: '', //Put your session id here
 
 global.owner = [
   ['919074692450', 'ABHISHEK-SURESH', true],
