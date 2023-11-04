@@ -90,10 +90,7 @@ const removePluginByName = (conn, name, m) => {
 const handlePluginCommand = async (m, { conn, text, isOwner }) => {
   if (text === 'get') {
     // If the user enters "plugin get", show the specified text
-    conn.reply(m.chat, '*𝙴𝚇𝚃𝙴𝚁𝙽𝙰𝙻 𝙿𝙻𝚄𝙶𝙸𝙽𝚂*
-
-𝙾𝙿𝙴𝙽 𝚃𝙷𝙸𝚂 𝚁𝙴𝙿𝙾 𝚃𝙾 𝙶𝙴𝚃 𝙿𝙻𝚄𝙶𝙸𝙽𝚂
-           https://github.com/AbhishekSuresh2/External-Plugins', m);
+    conn.reply(m.chat, '*𝙴𝚇𝚃𝙴𝚁𝙽𝙰𝙻 𝙿𝙻𝚄𝙶𝙸𝙽𝚂*\n\n𝙾𝙿𝙴𝙽 𝚃𝙷𝙸𝚂 𝚁𝙴𝙿𝙾 𝚃𝙾 𝙶𝙴𝚃 𝙿𝙻𝚄𝙶𝙸𝙽𝚂\n\nhttps://github.com/AbhishekSuresh2/External-Plugins', m);
   } else if (text.startsWith('list')) {
     listInstalledPlugins(conn, m);
   } else if (text.startsWith('remove')) {
