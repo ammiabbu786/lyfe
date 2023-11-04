@@ -16,7 +16,7 @@ const installPlugin = (conn, text, isOwner, m) => {
 
   if (text.includes('gist.github.com')) {
     if (installationInProgress) {
-      conn.reply(m.chat, '*Installation is already in progress. Please wait...*', m);
+      conn.reply(m.chat, '*Installation Is Already In Progress. Please wait...⏳*', m);
       return;
     }
 
@@ -57,7 +57,7 @@ const installPlugin = (conn, text, isOwner, m) => {
       }
     });
   } else {
-    conn.reply(m.chat, '*Invalid Plugin URL❌*', m);
+    conn.reply(m.chat, '*Invalid Plugin Url❌*', m);
   }
 }
 
@@ -70,7 +70,7 @@ export function listInstalledPlugins(conn, m) {
 
     conn.reply(m.chat, `*Installed Plugins:*\n${pluginList.join('\n\n')}`, m);
   } else {
-    conn.reply(m.chat, 'No plugins are currently installed.', m);
+    conn.reply(m.chat, '*❌No Plugins Are Currently Installed*.', m);
   }
 }
 
@@ -80,9 +80,9 @@ const removePluginByName = (conn, name, m) => {
 
   if (index !== -1) {
     installedPlugins.splice(index, 1); // Remove the plugin from the array
-    conn.reply(m.chat, `Plugin named "${name}" has been removed.`, m);
+    conn.reply(m.chat, `*Plugin* "${name}" *Has Been Removed✅ Restart To Get Effect*`, m);
   } else {
-    conn.reply(m.chat, `No plugin with the name "${name}" found.`, m);
+    conn.reply(m.chat, `*❌No Plugin Installed With The Name* "${name}"`, m);
   }
 }
 
@@ -90,7 +90,10 @@ const removePluginByName = (conn, name, m) => {
 const handlePluginCommand = async (m, { conn, text, isOwner }) => {
   if (text === 'get') {
     // If the user enters "plugin get", show the specified text
-    conn.reply(m.chat, 'hi plugins hi link hi', m);
+    conn.reply(m.chat, '*𝙴𝚇𝚃𝙴𝚁𝙽𝙰𝙻 𝙿𝙻𝚄𝙶𝙸𝙽𝚂*
+
+𝙾𝙿𝙴𝙽 𝚃𝙷𝙸𝚂 𝚁𝙴𝙿𝙾 𝚃𝙾 𝙶𝙴𝚃 𝙿𝙻𝚄𝙶𝙸𝙽𝚂
+           https://github.com/AbhishekSuresh2/External-Plugins', m);
   } else if (text.startsWith('list')) {
     listInstalledPlugins(conn, m);
   } else if (text.startsWith('remove')) {
@@ -98,7 +101,7 @@ const handlePluginCommand = async (m, { conn, text, isOwner }) => {
     if (name) {
       removePluginByName(conn, name, m);
     } else {
-      conn.reply(m.chat, 'Please provide the name of the plugin you want to remove.', m);
+      conn.reply(m.chat, '⚠️Please Provide The Name Of The Plugin You Want To Remove', m);
     }
   } else {
     installPlugin(conn, text, isOwner, m);
