@@ -1,1 +1,112 @@
-const _0x1f282f=_0x58a6;(function(_0x2eedff,_0x62afbe){const _0x4dc4ae=_0x58a6,_0x19b3e7=_0x2eedff();while(!![]){try{const _0x2bafd2=-parseInt(_0x4dc4ae(0xcb))/0x1+parseInt(_0x4dc4ae(0xd1))/0x2+-parseInt(_0x4dc4ae(0xa2))/0x3*(-parseInt(_0x4dc4ae(0xcf))/0x4)+-parseInt(_0x4dc4ae(0xa7))/0x5*(parseInt(_0x4dc4ae(0xc7))/0x6)+-parseInt(_0x4dc4ae(0xb6))/0x7+-parseInt(_0x4dc4ae(0xad))/0x8+-parseInt(_0x4dc4ae(0xa5))/0x9;if(_0x2bafd2===_0x62afbe)break;else _0x19b3e7['push'](_0x19b3e7['shift']());}catch(_0x4c70b3){_0x19b3e7['push'](_0x19b3e7['shift']());}}}(_0x1f63,0xb28e0));function _0x58a6(_0x49f6e4,_0x4093f6){const _0x1f63d3=_0x1f63();return _0x58a6=function(_0x58a690,_0x32ad3b){_0x58a690=_0x58a690-0xa0;let _0x363fd0=_0x1f63d3[_0x58a690];return _0x363fd0;},_0x58a6(_0x49f6e4,_0x4093f6);}function hi(){const _0x53c696=_0x58a6;console[_0x53c696(0xa3)]('Hello\x20World!');}hi();import{exec}from'child_process';import _0xd9786d from'fs';let installationInProgress=![];const installedPlugins=[],installPlugin=(_0x102c2f,_0x510947,_0x3cad3c,_0x124edc)=>{const _0xc48d85=_0x58a6;if(!_0x3cad3c)return _0x102c2f[_0xc48d85(0xb0)](_0x124edc['chat'],_0xc48d85(0xd0),_0x124edc);if(!_0x510947)return _0x102c2f[_0xc48d85(0xb0)](_0x124edc[_0xc48d85(0xb1)],'*⚠️Please\x20Provide\x20The\x20Url\x20Of\x20Plugin\x20You\x20Want\x20To\x20Install*',_0x124edc);if(_0x510947[_0xc48d85(0xae)](_0xc48d85(0xb8))){if(installationInProgress){_0x102c2f[_0xc48d85(0xb0)](_0x124edc['chat'],'*Installation\x20Is\x20Already\x20In\x20Progress.\x20Please\x20wait...⏳*',_0x124edc);return;}installationInProgress=!![],_0x102c2f[_0xc48d85(0xb0)](_0x124edc[_0xc48d85(0xb1)],_0xc48d85(0xc8),_0x124edc),exec(_0xc48d85(0xc3)+_0x510947+_0xc48d85(0xc6),(_0x1a1632,_0x4de575,_0x4652f1)=>{const _0x4e3b15=_0xc48d85;installationInProgress=![];if(_0x1a1632)return _0x102c2f[_0x4e3b15(0xb0)](_0x124edc['chat'],_0x4e3b15(0xa9),_0x124edc);const _0x12b27d='./plugins/plugin.js';try{const _0x46199f=_0xd9786d[_0x4e3b15(0xac)](_0x12b27d,_0x4e3b15(0xaf)),_0x48e5d5=_0x46199f[_0x4e3b15(0xb7)](/export const pluginName = '([^']+)';/),_0x2662eb=_0x46199f[_0x4e3b15(0xb7)](/export const pluginCommand = '([^']+)';/);if(_0x48e5d5&&_0x2662eb){const _0x44787b=_0x48e5d5[0x1],_0x23f0af=_0x2662eb[0x1];installedPlugins[_0x4e3b15(0xa6)]({'name':_0x44787b,'command':_0x23f0af,'url':_0x510947}),_0x102c2f['reply'](_0x124edc['chat'],'*Plugin\x20Installed✅*\x0a\x0a*Plugin\x20Name:*\x20'+_0x44787b+'\x0a*Plugin\x20Command:*\x20'+_0x23f0af,_0x124edc);}else _0x102c2f[_0x4e3b15(0xb0)](_0x124edc[_0x4e3b15(0xb1)],'*⚠️ABHISHEK-SER\x20Bot\x20Does\x20Not\x20Support\x20This\x20Type\x20Of\x20Plugin*',_0x124edc);}catch(_0x339754){_0x102c2f[_0x4e3b15(0xb0)](_0x124edc[_0x4e3b15(0xb1)],_0x4e3b15(0xc0),_0x124edc);}});}else _0x102c2f[_0xc48d85(0xb0)](_0x124edc[_0xc48d85(0xb1)],_0xc48d85(0xb9),_0x124edc);};export function listInstalledPlugins(_0x1ec9b7,_0x31640c){const _0x1d4abe=_0x58a6;if(installedPlugins[_0x1d4abe(0xbc)]>0x0){const _0x28841a=installedPlugins['map']((_0x192ef0,_0x8c2e0)=>{const _0x5a429d=_0x1d4abe;return'Plugin\x20'+(_0x8c2e0+0x1)+_0x5a429d(0xbb)+_0x192ef0['name']+_0x5a429d(0xaa)+_0x192ef0[_0x5a429d(0xb3)]+_0x5a429d(0xb5)+_0x192ef0['url'];});_0x1ec9b7[_0x1d4abe(0xb0)](_0x31640c[_0x1d4abe(0xb1)],_0x1d4abe(0xc4)+_0x28841a[_0x1d4abe(0xb2)]('\x0a\x0a'),_0x31640c);}else _0x1ec9b7[_0x1d4abe(0xb0)](_0x31640c['chat'],_0x1d4abe(0xc1),_0x31640c);}function _0x1f63(){const _0x1ef9e7=['trim','21TFVjWQ','log','*⚠️Please\x20Provide\x20The\x20Name\x20Of\x20The\x20Plugin\x20You\x20Want\x20To\x20Remove*','822546WFZzpW','push','155IhHMAB','tags','*Failed\x20To\x20Install\x20The\x20Plugin❌*','\x0a*Command:*\x20','*Plugin*\x20\x22','readFileSync','4225896zuqJGl','includes','utf-8','reply','chat','join','command','plugin\x20remove\x20<name>','\x0a*Link:*\x20','6343295XPZloC','match','gist.github.com','*Invalid\x20Plugin\x20Url❌*','get',':\x0a*Name:*\x20','length','replace','plugin\x20list','startsWith','*Error\x20Reading\x20The\x20Installed\x20Plugin\x20File❌*','*❌No\x20Plugins\x20Are\x20Currently\x20Installed*.','plugin\x20<url>','wget\x20','*Installed\x20Plugins:*\x0a','owner','/raw\x20-O\x20plugins/plugin.js','90996gVTvLB','*Installing\x20Plugin⬇️*','\x22\x20*Has\x20Been\x20Removed✅\x20Restart\x20To\x20Get\x20Effect*','plugin','124485yUEIcP','*𝙴𝚇𝚃𝙴𝚁𝙽𝙰𝙻\x20𝙿𝙻𝚄𝙶𝙸𝙽𝚂*\x0a\x0a𝙾𝙿𝙴𝙽\x20𝚃𝙷𝙸𝚂\x20𝚁𝙴𝙿𝙾\x20𝚃𝙾\x20𝙶𝙴𝚃\x20𝙿𝙻𝚄𝙶𝙸𝙽𝚂\x0a\x0ahttps://github.com/AbhishekSuresh2/External-Plugins','name','splice','800852ngqqnK','This\x20Command\x20Can\x20Only\x20Be\x20Used\x20By\x20The\x20*Creator\x20Of\x20The\x20Bot*','2900632jJBhRo','findIndex'];_0x1f63=function(){return _0x1ef9e7;};return _0x1f63();}const removePluginByName=(_0x5ae998,_0x4cce18,_0x5122b2)=>{const _0x3f20eb=_0x58a6,_0x14ef08=installedPlugins[_0x3f20eb(0xa0)](_0x183ecd=>_0x183ecd[_0x3f20eb(0xcd)]===_0x4cce18);_0x14ef08!==-0x1?(installedPlugins[_0x3f20eb(0xce)](_0x14ef08,0x1),_0x5ae998[_0x3f20eb(0xb0)](_0x5122b2['chat'],_0x3f20eb(0xab)+_0x4cce18+_0x3f20eb(0xc9),_0x5122b2)):_0x5ae998[_0x3f20eb(0xb0)](_0x5122b2[_0x3f20eb(0xb1)],'*❌No\x20Plugin\x20Installed\x20With\x20The\x20Name*\x20\x22'+_0x4cce18+'\x22',_0x5122b2);},handlePluginCommand=async(_0x1cc6ca,{conn:_0x52ee45,text:_0x22f1a3,isOwner:_0x547e2e})=>{const _0x438f1a=_0x58a6;if(_0x22f1a3===_0x438f1a(0xba))_0x52ee45['reply'](_0x1cc6ca['chat'],_0x438f1a(0xcc),_0x1cc6ca);else{if(_0x22f1a3[_0x438f1a(0xbf)]('list'))listInstalledPlugins(_0x52ee45,_0x1cc6ca);else{if(_0x22f1a3['startsWith']('remove')){const _0x41241d=_0x22f1a3[_0x438f1a(0xbd)]('remove','')[_0x438f1a(0xa1)]();_0x41241d?removePluginByName(_0x52ee45,_0x41241d,_0x1cc6ca):_0x52ee45[_0x438f1a(0xb0)](_0x1cc6ca[_0x438f1a(0xb1)],_0x438f1a(0xa4),_0x1cc6ca);}else installPlugin(_0x52ee45,_0x22f1a3,_0x547e2e,_0x1cc6ca);}}};handlePluginCommand['help']=[_0x1f282f(0xc2),_0x1f282f(0xbe),_0x1f282f(0xb4)],handlePluginCommand[_0x1f282f(0xa8)]=[_0x1f282f(0xc5)],handlePluginCommand[_0x1f282f(0xb3)]=[_0x1f282f(0xca)];export default handlePluginCommand;
+import { exec } from 'child_process';
+import fs from 'fs';
+
+let installationInProgress = false;
+const installedPlugins = []; // Initialize an array to store installed plugin information
+
+// Function to install a plugin from a GitHub Gist URL
+const installPlugin = (conn, text, isOwner, m) => {
+  if (!isOwner) {
+    return conn.reply(m.chat, 'This Command Can Only Be Used By The *Creator Of The Bot*', m);
+  }
+
+  if (!text) {
+    return conn.reply(m.chat, '*⚠️Please Provide The Url Of Plugin You Want To Install*', m);
+  }
+
+  if (text.includes('gist.github.com')) {
+    if (installationInProgress) {
+      conn.reply(m.chat, '*Installation Is Already In Progress. Please wait...⏳*', m);
+      return;
+    }
+
+    installationInProgress = true;
+
+    conn.reply(m.chat, `*Installing Plugin⬇️*`, m);
+
+    exec(`wget ${text}/raw -O plugins/plugin.js`, (error, stdout, stderr) => {
+      installationInProgress = false; // Reset the flag
+
+      if (error) {
+        return conn.reply(m.chat, '*Failed To Install The Plugin❌*', m);
+      }
+
+      // Read the contents of the installed plugin file
+      const pluginFilePath = './plugins/plugin.js';
+      try {
+        const pluginFileContents = fs.readFileSync(pluginFilePath, 'utf-8');
+
+        // Extract plugin information from the file contents (example: 'export const pluginName = 'My Plugin';')
+        const matchPluginName = pluginFileContents.match(/export const pluginName = '([^']+)';/);
+        const matchPluginCommand = pluginFileContents.match(/export const pluginCommand = '([^']+)';/);
+
+        if (matchPluginName && matchPluginCommand) {
+          const pluginName = matchPluginName[1];
+          const pluginCommand = matchPluginCommand[1];
+
+          // Add the plugin information to the installedPlugins array
+          installedPlugins.push({ name: pluginName, command: pluginCommand, url: text });
+
+          // Show the plugin name and command only after installation
+          conn.reply(m.chat, `*Plugin Installed✅*\n\n*Plugin Name:* ${pluginName}\n*Plugin Command:* ${pluginCommand}`, m);
+        } else {
+          conn.reply(m.chat, '*⚠️ABHISHEK-SER Bot Does Not Support This Type Of Plugin*', m);
+        }
+      } catch (e) {
+        conn.reply(m.chat, '*Error Reading The Installed Plugin File❌*', m);
+      }
+    });
+  } else {
+    conn.reply(m.chat, '*Invalid Plugin Url❌*', m);
+  }
+}
+
+// Function to list installed plugins
+export function listInstalledPlugins(conn, m) {
+  if (installedPlugins.length > 0) {
+    const pluginList = installedPlugins.map((plugin, index) => {
+      return `Plugin ${index + 1}:\n*Name:* ${plugin.name}\n*Command:* ${plugin.command}\n*Link:* ${plugin.url}`;
+    });
+
+    conn.reply(m.chat, `*Installed Plugins:*\n${pluginList.join('\n\n')}`, m);
+  } else {
+    conn.reply(m.chat, '*❌No Plugins Are Currently Installed*.', m);
+  }
+}
+
+// Function to remove a plugin by name
+const removePluginByName = (conn, name, m) => {
+  const index = installedPlugins.findIndex((plugin) => plugin.name === name);
+
+  if (index !== -1) {
+    installedPlugins.splice(index, 1); // Remove the plugin from the array
+    conn.reply(m.chat, `*Plugin* "${name}" *Has Been Removed✅ Restart To Get Effect*`, m);
+  } else {
+    conn.reply(m.chat, `*❌No Plugin Installed With The Name* "${name}"`, m);
+  }
+}
+
+// Handler to process .plugin command
+const handlePluginCommand = async (m, { conn, text, isOwner }) => {
+  if (text === 'get') {
+    // If the user enters "plugin get", show the specified text
+    conn.reply(m.chat, '*𝙴𝚇𝚃𝙴𝚁𝙽𝙰𝙻 𝙿𝙻𝚄𝙶𝙸𝙽𝚂*\n\n𝙾𝙿𝙴𝙽 𝚃𝙷𝙸𝚂 𝚁𝙴𝙿𝙾 𝚃𝙾 𝙶𝙴𝚃 𝙿𝙻𝚄𝙶𝙸𝙽𝚂\n\nhttps://github.com/AbhishekSuresh2/External-Plugins', m);
+  } else if (text.startsWith('list')) {
+    listInstalledPlugins(conn, m);
+  } else if (text.startsWith('remove')) {
+    const name = text.replace('remove', '').trim();
+    if (name) {
+      removePluginByName(conn, name, m);
+    } else {
+      conn.reply(m.chat, '*⚠️Please Provide The Name Of The Plugin You Want To Remove*', m);
+    }
+  } else {
+    installPlugin(conn, text, isOwner, m);
+  }
+}
+
+handlePluginCommand.help = ['plugin <url>', 'plugin list', 'plugin remove <name>'];
+handlePluginCommand.tags = ['owner'];
+handlePluginCommand.command = ['plugin'];
+
+export default handlePluginCommand;
