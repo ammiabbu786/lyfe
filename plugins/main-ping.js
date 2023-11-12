@@ -4,7 +4,7 @@ import speed from 'performance-now';
 const handler = async (m, { conn }) => {
   try {
     const pingMsg = await conn.sendMessage(m.chat, { text: '*📡Checking Ping...*' });
-    
+
     const timestamp = speed();
 
     exec('neofetch --stdout', async (error, stdout) => {
@@ -17,8 +17,8 @@ const handler = async (m, { conn }) => {
 
       const responseMessage = `*📡Pong!* ${latency} ms`;
 
-      // Add poll system here
-      const pollOptions = ['Yes', 'No'];
+      // Replace the poll system with predefined options
+      const pollOptions = ['Owner', 'Ping'];
       const pollMessage = await conn.sendPoll(m.chat, responseMessage, pollOptions, { isQuiz: true, duration: 60000 });
 
       const pollUpdate = await conn.onPollUpdate(pollMessage.key);
