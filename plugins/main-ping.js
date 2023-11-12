@@ -1,32 +1,42 @@
-import { exec } from 'child_process'
-import speed from 'performance-now'
+import { exec } from 'child_process';
+import speed from 'performance-now';
 
-let handler = async (m, { conn }) => {
+const handler = async (m, { conn }) => {
+  try {
+    const pingMsg = await conn.sendMessage(m.chat, { text: '*📡Checking Ping...*' });
+    
+    const timestamp = speed();
 
-  let pingMsg = await conn.sendMessage(m.chat, {text: '*📡Checking Ping...*'})
-
-  let timestamp = speed()
-
-  await exec('neofetch --stdout', async (error, stdout) => {
-
-    let latency = (speed() - timestamp).toFixed(4)
-
-    await conn.relayMessage(m.chat, {
-      protocolMessage: {
-        key: pingMsg.key,
-        type: 14,
-        editedMessage: {
-          conversation: `*📡Pong!* ${latency} ms` 
-        }
+    exec('neofetch --stdout', async (error, stdout) => {
+      if (error) {
+        console.error('Error executing neofetch:', error);
+        return;
       }
-    }, {})
 
-  })
+      const latency = (speed() - timestamp).toFixed(4);
 
-}
+      const responseMessage = `*📡Pong!* ${latency} ms`;
 
-handler.help = ['ping']
-handler.tags = ['main']
-handler.command = ['ping', 'speed'] 
+      // Add poll system here
+      const pollOptions = ['Yes', 'No'];
+      const pollMessage = await conn.sendPoll(m.chat, responseMessage, pollOptions, { isQuiz: true, duration: 60000 });
 
-export default handler
+      const pollUpdate = await conn.onPollUpdate(pollMessage.key);
+      const pollResult = pollUpdate.result;
+
+      const pollVotes = pollResult.options.map(option => `${option.text}: ${option.voters.length} votes`).join('\n');
+
+      const finalResponse = `${responseMessage}\n\n*Poll Results:*\n${pollVotes}`;
+
+      await conn.editMessage(m.chat, pollMessage.key, finalResponse);
+    });
+  } catch (err) {
+    console.error('Error in ping command handler:', err);
+  }
+};
+
+handler.help = ['ping'];
+handler.tags = ['main'];
+handler.command = ['ping', 'speed'];
+
+export default handler;
