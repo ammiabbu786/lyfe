@@ -19,8 +19,7 @@ handler.all = async function (m, conn) {
         contextInfo: {
           mentionedJid: [m.sender],
           externalAdReply: {
-          title: "⇆ㅤ ||◁ㅤ❚❚ㅤ▷||ㅤ ⇆
-01:43 ━━━━●───── 03:50",
+          title: "↺ |◁   II   ▷|   ♡",
           body: hash,
           thumbnailUrl: img,
           sourceUrl: url,
