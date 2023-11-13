@@ -5,7 +5,7 @@ let handler = async (m, { conn, text }) => {
   if (!text) throw 'GIVE ME NUMBER';
 
   try {
-    let res = await fetch(`https://inrl-web.onrender.com/api/truecaller?number=${text}`);
+    let res = await fetch(`https://truecaller-api.vercel.app/search?phone=${encodeURIComponent(phoneNumber)}&id=${installationId}`);
 
     if (!res.ok) {
       throw new Error(`API request failed with status ${res.status}`);
