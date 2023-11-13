@@ -33,7 +33,7 @@ const listMessage = {
   sections
 }
 
-  let isEnable = /true|settings|(turn)?on|1/i.test(command)
+  let isEnable = /true|enable|(turn)?on|1/i.test(command)
   let chat = global.db.data.chats[m.chat]
   let user = global.db.data.users[m.sender]
   let bot = global.db.data.settings[conn.user.jid] || {}
@@ -227,6 +227,6 @@ m.reply(`
 }
 handler.help = ['en', 'dis'].map(v => v + 'able <option>')
 handler.tags = ['nable']
-handler.command = /^((en|dis)able|(turn)?o(n|ff)|[01])$/i
+handler.command = /^((en|dis)able|(settings)|(turn)?o(n|ff)|[01])$/i
 
 export default handler
